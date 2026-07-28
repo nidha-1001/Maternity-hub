@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getCentersApi } from "../services/api";
 import { RatingStars } from "../components/RatingStars";
-import { Search, MapPin, Sparkles, Building2, HeartHandshake, ShieldCheck, Calendar, ArrowRight, UserCheck, Star, Activity } from "lucide-react";
-import { motion } from "framer-motion";
+import { Search, MapPin, Building2, HeartHandshake, UserCheck, Star, Activity, ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
 
 export const Home = () => {
   const [centers, setCenters] = useState([]);
@@ -27,7 +26,9 @@ export const Home = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    navigate(`/centers?search=${encodeURIComponent(searchQuery)}`);
+    if (searchQuery.trim()) {
+      navigate(`/centers?search=${encodeURIComponent(searchQuery)}`);
+    }
   };
 
   const sampleCenters = [
@@ -63,145 +64,104 @@ export const Home = () => {
   const displayedCenters = centers.length > 0 ? centers : sampleCenters;
 
   return (
-    <div className="space-y-20 pb-16">
+    <div className="flex flex-col w-full bg-white dark:bg-slate-950">
       
       {/* HERO SECTION */}
-      <section className="relative pt-12 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Background Decorative Glowing Blobs */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-rose-300/40 via-purple-300/30 to-teal-300/30 blur-3xl rounded-full pointer-events-none -z-10 dark:from-rose-900/20 dark:via-purple-900/20 dark:to-teal-900/20" />
-        
-        <div className="max-w-5xl mx-auto text-center space-y-8">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-rose-200/60 dark:border-rose-900/60 text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400"
-          >
-            <Sparkles className="w-4 h-4 text-amber-500" />
-            Empowering Every Birth Journey
-          </motion.div>
-
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight"
-          >
-            Find & Book Certified <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-rose-600 via-pink-600 to-teal-600 bg-clip-text text-transparent">
-              Maternity Centers & Specialist Care
-            </span>
-          </motion.h1>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto"
-          >
-            Discover top-rated maternity hospitals, luxury birthing suites, prenatal experts, and postnatal care centers near you.
-          </motion.p>
-
-          {/* GLASS SEARCH BAR */}
-          <motion.form 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            onSubmit={handleSearchSubmit}
-            className="glass-card p-3 max-w-2xl mx-auto flex flex-col sm:flex-row items-center gap-3 rounded-2xl shadow-xl"
-          >
-            <div className="flex items-center gap-3 px-3 flex-1 w-full">
-              <Search className="w-5 h-5 text-rose-500 shrink-0" />
-              <input
-                type="text"
-                placeholder="Search by city, center name, or service..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-transparent border-none outline-none text-slate-800 dark:text-slate-100 placeholder-slate-400 text-base"
-              />
-            </div>
-            <button type="submit" className="btn btn-primary w-full sm:w-auto px-8 py-3.5">
-              Explore Centers
-            </button>
-          </motion.form>
-
-          {/* QUICK TRUST BADGES */}
-          <div className="pt-4 flex flex-wrap justify-center gap-6 text-sm text-slate-500 dark:text-slate-400 font-medium">
-            <span className="flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-emerald-500" /> Verified Medical Staff
-            </span>
-            <span className="flex items-center gap-2">
-              <UserCheck className="w-5 h-5 text-teal-500" /> 10,000+ Happy Mothers
-            </span>
-            <span className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-rose-500" /> Instant Online Booking
-            </span>
-          </div>
+      <section className="pt-24 pb-20 md:pt-32 md:pb-28 px-6 text-center max-w-4xl mx-auto w-full">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold mb-8">
+          <Sparkles className="w-3.5 h-3.5 text-sky-500" />
+          <span>Premium Maternity Care Network</span>
         </div>
+
+        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15] mb-6">
+          Find & Book Certified Maternity Centers
+        </h1>
+
+        <p className="text-base md:text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-10">
+          Discover top-rated maternity hospitals, luxury birthing suites, and postnatal care experts. Built for a seamless and trustworthy experience.
+        </p>
+
+        {/* SEARCH BAR */}
+        <form 
+          onSubmit={handleSearchSubmit}
+          className="max-w-xl mx-auto flex flex-col sm:flex-row items-center gap-2 p-1.5 rounded-xl sm:rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm"
+        >
+          <div className="flex items-center flex-1 px-4 py-1.5 w-full">
+            <Search className="w-4 h-4 text-slate-400 shrink-0 mr-3" />
+            <input
+              type="text"
+              placeholder="Search by city, center name..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-transparent border-none outline-none text-slate-900 dark:text-white placeholder-slate-400 text-sm font-medium"
+            />
+          </div>
+          <button type="submit" className="btn btn-primary rounded-lg sm:rounded-full w-full sm:w-auto px-5 py-2 text-sm shrink-0">
+            Search
+          </button>
+        </form>
       </section>
 
       {/* STATS SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[
-            { label: "Maternity Centers", val: "120+", icon: Building2, color: "text-rose-500" },
-            { label: "Delivered Babies", val: "15,000+", icon: HeartHandshake, color: "text-teal-500" },
-            { label: "Specialist Doctors", val: "450+", icon: UserCheck, color: "text-purple-500" },
-            { label: "Care Satisfaction", val: "99.4%", icon: Star, color: "text-amber-500" },
-          ].map((stat, idx) => (
-            <div key={idx} className="glass-card p-6 text-center space-y-2 hover:scale-[1.02] transition-transform">
-              <stat.icon className={`w-8 h-8 mx-auto ${stat.color}`} />
-              <h3 className="text-3xl font-bold">{stat.val}</h3>
-              <p className="text-xs uppercase tracking-wider text-slate-500 font-bold">{stat.label}</p>
-            </div>
-          ))}
+      <section className="border-y border-slate-100 dark:border-slate-900 bg-slate-50/50 dark:bg-slate-900/30">
+        <div className="max-w-5xl mx-auto px-6 py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {[
+              { label: "Maternity Centers", val: "120+" },
+              { label: "Delivered Babies", val: "15,000+" },
+              { label: "Specialist Doctors", val: "450+" },
+              { label: "Care Satisfaction", val: "99.4%" },
+            ].map((stat, idx) => (
+              <div key={idx} className="space-y-1">
+                <div className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">{stat.val}</div>
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* FEATURED MATERNITY CENTERS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-          <div>
-            <h2 className="text-3xl font-extrabold">Top Featured Maternity Centers</h2>
-            <p className="text-slate-500 dark:text-slate-400 mt-1">
-              Top recommended maternity hospitals and birthing facilities with state-of-the-art infrastructure.
-            </p>
+      {/* FEATURED CENTERS */}
+      <section className="max-w-6xl mx-auto px-6 py-20 md:py-28 w-full">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 gap-4">
+          <div className="max-w-lg">
+            <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">Featured Centers</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Highly rated birthing facilities equipped with modern infrastructure.</p>
           </div>
-          <Link to="/centers" className="btn btn-outline flex items-center gap-2">
-            View All Centers <ArrowRight className="w-4 h-4" />
+          <Link to="/centers" className="text-sm font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1">
+            View all directory <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {displayedCenters.map((center) => (
-            <div key={center._id} className="glass-card overflow-hidden group hover:shadow-2xl transition-all duration-300 flex flex-col justify-between p-6 space-y-4 border border-slate-200/80 dark:border-slate-800">
-              <div className="space-y-3">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-lg">
-                    <Building2 className="w-6 h-6" />
-                  </div>
-                  <RatingStars rating={center.rating || 4.9} />
+            <div key={center._id} className="ui-card flex flex-col p-5 group hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
+              <div className="flex items-start justify-between mb-4">
+                <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                  <Building2 className="w-5 h-5 text-slate-700 dark:text-slate-300" />
                 </div>
-
-                <div>
-                  <h3 className="text-xl font-bold group-hover:text-rose-600 transition-colors">
-                    {center.centerName}
-                  </h3>
-                  <p className="text-xs font-semibold text-teal-600 dark:text-teal-400 flex items-center gap-1 mt-1">
-                    <MapPin className="w-3.5 h-3.5" />
-                    {center.location}
-                  </p>
+                <div className="flex items-center gap-1 bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-500 px-2 py-1 rounded font-semibold text-xs border border-amber-100 dark:border-amber-900/50">
+                  <Star className="w-3 h-3 fill-current" />
+                  {center.rating || 4.9}
                 </div>
-
-                <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-3">
-                  {center.description || "Comprehensive prenatal, birthing, and postnatal care center with modern equipment and compassionate care."}
+              </div>
+              
+              <div className="mb-4 flex-1">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                  {center.centerName}
+                </h3>
+                <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500 mb-3">
+                  <MapPin className="w-3.5 h-3.5" />
+                  {center.location}
+                </div>
+                <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
+                  {center.description}
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-400">Owner: {center.ownerName || "Certified Hospital"}</span>
-                <Link to={`/centers/${center._id}`} className="btn btn-primary text-xs py-2 px-4">
-                  View & Book Services
+              <div className="mt-2 pt-4 border-t border-slate-100 dark:border-slate-800/80">
+                <Link to={`/centers/${center._id}`} className="text-sm font-semibold text-slate-900 dark:text-white flex items-center justify-between group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                  View full details <ArrowRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all" />
                 </Link>
               </div>
             </div>
@@ -209,49 +169,45 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* CARE SERVICES HIGHLIGHT */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-rose-500/10 via-purple-500/10 to-teal-500/10 p-8 sm:p-12 rounded-3xl border border-rose-200/50 dark:border-rose-900/50 space-y-8">
-        <div className="text-center max-w-2xl mx-auto space-y-3">
-          <h2 className="text-3xl font-extrabold">Comprehensive Maternity Care Services</h2>
-          <p className="text-slate-600 dark:text-slate-300">
-            From early trimester ultrasounds to 24/7 postnatal care, book individual specialist services easily.
-          </p>
-        </div>
+      {/* SERVICES */}
+      <section className="bg-slate-50 dark:bg-slate-900/50 border-y border-slate-100 dark:border-slate-900">
+        <div className="max-w-5xl mx-auto px-6 py-20 md:py-28 w-full">
+          <div className="text-center max-w-xl mx-auto mb-16">
+            <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">Comprehensive Care</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+              From early trimester ultrasounds to postnatal care, book individual specialist services instantly through our verified network.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {[
-            { title: "Prenatal Consultations", desc: "Routine fetal monitoring, genetic screening, and maternal nutrition advice.", icon: Activity },
-            { title: "Birthing Suites & Delivery", desc: "Private water birth suites, painless labor options, and OB/GYN specialists.", icon: HeartHandshake },
-            { title: "Postnatal Rehabilitation", desc: "Lactation nursing, pelvic floor therapy, and postpartum wellness.", icon: ShieldCheck },
-            { title: "Pediatric & NICU Care", desc: "Level III neonatal intensive care and pediatrician checkups.", icon: Sparkles },
-          ].map((srv, idx) => (
-            <div key={idx} className="glass-card p-6 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-rose-100/70 dark:bg-slate-800 shadow flex items-center justify-center text-rose-500">
-                <srv.icon className="w-5 h-5" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {[
+              { title: "Prenatal Consults", desc: "Routine monitoring and genetic screening.", icon: Activity },
+              { title: "Birthing Suites", desc: "Private water birth suites and OB specialists.", icon: HeartHandshake },
+              { title: "Postnatal Care", desc: "Lactation nursing and postpartum wellness.", icon: ShieldCheck },
+              { title: "NICU Services", desc: "Level III neonatal intensive care facilities.", icon: Building2 },
+            ].map((srv, idx) => (
+              <div key={idx} className="flex flex-col text-center items-center">
+                <div className="w-12 h-12 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mb-4 shadow-sm">
+                  <srv.icon className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+                </div>
+                <h4 className="font-semibold text-slate-900 dark:text-white mb-1.5 text-sm">{srv.title}</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{srv.desc}</p>
               </div>
-              <h4 className="font-bold text-lg">{srv.title}</h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400">{srv.desc}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CALL TO ACTION */}
-      <section className="max-w-5xl mx-auto px-4 text-center">
-        <div className="glass-card p-10 sm:p-14 space-y-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-rose-400/20 rounded-full blur-2xl pointer-events-none" />
-          <h2 className="text-3xl sm:text-4xl font-extrabold">Are You a Certified Maternity Center Owner?</h2>
-          <p className="text-slate-600 dark:text-slate-300 max-w-xl mx-auto">
-            Join MaternityHub to showcase your center, manage patient appointments, and publish your healthcare services to thousands of expectant families.
+      <section className="max-w-4xl mx-auto px-6 py-20 md:py-28 w-full text-center">
+        <div className="bg-slate-50 dark:bg-slate-900 rounded-2xl p-10 md:p-16 border border-slate-200 dark:border-slate-800 flex flex-col items-center">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">Register Your Center</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-8 max-w-md mx-auto leading-relaxed">
+            Join the MaternityHub network to showcase your facility and manage patient appointments seamlessly.
           </p>
-          <div className="flex flex-wrap justify-center gap-4 pt-2">
-            <Link to="/register" className="btn btn-primary px-8 py-3.5 text-base">
-              Register Center Now
-            </Link>
-            <Link to="/centers" className="btn btn-outline px-8 py-3.5 text-base">
-              Browse Registered Centers
-            </Link>
-          </div>
+          <Link to="/register" className="btn btn-primary px-6 py-2.5 text-sm">
+            Create Provider Account
+          </Link>
         </div>
       </section>
 
