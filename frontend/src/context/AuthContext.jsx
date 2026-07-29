@@ -1,75 +1,46 @@
 import React, { createContext, useState, useEffect } from "react";
-import { loginApi, registerApi, getProfileApi, updateProfileApi } from "../services/api";
+import { api } from "../services/api";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [loading, setLoading] = useState(true);
 
-  // Fetch current user profile on mount if token exists
   useEffect(() => {
-    const loadUser = async () => {
-      if (token) {
-        try {
-          const { data } = await getProfileApi();
-          setUser(data);
-        } catch (error) {
-          console.error("Token verification failed:", error);
-          logout();
-        }
-      }
-      setLoading(false);
-    };
-
-    loadUser();
+    // Mock user fetch for now if token exists
+    if (token) {
+      // In a real app we'd fetch profile from /api/users/profile
+      // For this scaffold, we'll set a mock user to allow routing
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) setUser(JSON.parse(storedUser));
+    }
+    setLoading(false);
   }, [token]);
 
-  // Login handler
   const login = async (email, password) => {
-    const { data } = await loginApi({ email, password });
-    localStorage.setItem("token", data.token);
-    setToken(data.token);
-    setUser(data);
-    return data;
+    try {
+      const res = await api.post("/auth/login", { email, password });
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data));
+      setToken(res.data.token);
+      setUser(res.data);
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: error.response?.data?.message || "Login failed" };
+    }
   };
 
-  // Register handler
-  const register = async (userData) => {
-    const { data } = await registerApi(userData);
-    localStorage.setItem("token", data.token);
-    setToken(data.token);
-    setUser(data);
-    return data;
-  };
-
-  // Logout handler
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setToken(null);
     setUser(null);
   };
 
-  // Update profile handler
-  const updateProfile = async (profileData) => {
-    const { data } = await updateProfileApi(profileData);
-    setUser((prev) => ({ ...prev, ...data }));
-    return data;
-  };
-
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        token,
-        loading,
-        login,
-        register,
-        logout,
-        updateProfile,
-      }}
-    >
+    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
