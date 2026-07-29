@@ -1,188 +1,181 @@
-import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { getCentersApi } from "../services/api";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Search, MapPin, ArrowLeft } from "lucide-react";
 import { RatingStars } from "../components/RatingStars";
-import { BackButton } from "../components/BackButton";
-import { Search, MapPin, Building2, Filter, ChevronRight } from "lucide-react";
+import { StatusBadge } from "../components/StatusBadge";
+import { motion } from "framer-motion";
 
-export const CenterList = () => {
-  const [searchParams] = useSearchParams();
-  const initialSearch = searchParams.get("search") || "";
+const mockCenters = [
+  {
+    id: 1,
+    name: "Blossom Motherhood & Birthing Suite",
+    location: "San Francisco, CA",
+    description: "Luxury natural birth suites, 24/7 obstetricians, water birth tubs, and postpartum confinement care.",
+    rating: 4.9,
+    status: "Approved"
+  },
+  {
+    id: 2,
+    name: "St. Jude Women & Infant Care Center",
+    location: "Chicago, IL",
+    description: "Level III NICU, comprehensive high-risk pregnancy management, fetal cardiology & ultrasound.",
+    rating: 4.8,
+    status: "Approved"
+  },
+  {
+    id: 3,
+    name: "Serenity Maternity & Postnatal Haven",
+    location: "Austin, TX",
+    description: "Postpartum nursing retreat, lactation consultants, maternal mental wellness counseling, newborn nutrition.",
+    rating: 5.0,
+    status: "Approved"
+  },
+  {
+    id: 4,
+    name: "Grace Family Birthing Hospital",
+    location: "New York, NY",
+    description: "Comprehensive prenatal diagnostics, painless epidural labor suites, and 24/7 emergency OB/GYN response.",
+    rating: 4.7,
+    status: "Approved"
+  },
+  {
+    id: 5,
+    name: "Lumina Women's Health & Delivery",
+    location: "Los Angeles, CA",
+    description: "Premium maternal care focusing on holistic wellness, customized birth plans, and advanced prenatal genetics.",
+    rating: 4.9,
+    status: "Approved"
+  },
+  {
+    id: 6,
+    name: "Nurture Care Maternity Home",
+    location: "Seattle, WA",
+    description: "Cozy, home-like birthing environment with highly experienced midwives and comprehensive doula support.",
+    rating: 4.8,
+    status: "Approved"
+  },
+  {
+    id: 7,
+    name: "Sunrise Neonatal & Birthing Institute",
+    location: "Miami, FL",
+    description: "Specialized in high-risk pregnancies with an award-winning Level IV NICU and dedicated maternal-fetal medicine specialists.",
+    rating: 4.9,
+    status: "Premium"
+  },
+  {
+    id: 8,
+    name: "Harmony Family Birthing Suites",
+    location: "Denver, CO",
+    description: "Eco-friendly birthing center offering water births, hypnobirthing classes, and postpartum family integration.",
+    rating: 4.7,
+    status: "Approved"
+  }
+];
 
-  const [centers, setCenters] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState(initialSearch);
-  const [selectedLocation, setSelectedLocation] = useState("all");
+const CenterList = () => {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [locationFilter, setLocationFilter] = useState("All Locations");
 
   useEffect(() => {
-    const fetchCenters = async () => {
-      try {
-        const { data } = await getCentersApi();
-        setCenters(data);
-      } catch (error) {
-        console.error("Failed to fetch centers:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCenters();
+    window.scrollTo(0, 0);
   }, []);
 
-  const sampleCenters = [
-    {
-      _id: "center1",
-      centerName: "Blossom Motherhood & Birthing Suite",
-      location: "San Francisco, CA",
-      address: "450 Healthcare Ave, Suite 200",
-      phone: "+1 (415) 555-0192",
-      description: "Luxury natural birth suites, 24/7 obstetricians, water birth tubs, and postpartum confinement care.",
-      status: "Approved",
-      rating: 4.9,
-    },
-    {
-      _id: "center2",
-      centerName: "St. Jude Women & Infant Care Center",
-      location: "Chicago, IL",
-      address: "120 Park Ridge Blvd",
-      phone: "+1 (312) 555-0843",
-      description: "Level III NICU, comprehensive high-risk pregnancy management, fetal cardiology & ultrasound.",
-      status: "Approved",
-      rating: 4.8,
-    },
-    {
-      _id: "center3",
-      centerName: "Serenity Maternity & Postnatal Haven",
-      location: "Austin, TX",
-      address: "880 Oakridge Lane",
-      phone: "+1 (512) 555-0311",
-      description: "Postpartum nursing retreat, lactation consultants, maternal mental wellness counseling, newborn nutrition.",
-      status: "Approved",
-      rating: 5.0,
-    },
-    {
-      _id: "center4",
-      centerName: "Grace Family Birthing Hospital",
-      location: "New York, NY",
-      address: "710 East 64th Street",
-      phone: "+1 (212) 555-9012",
-      description: "Comprehensive prenatal diagnostics, painless epidural labor suites, and 24/7 emergency OB/GYN response.",
-      status: "Approved",
-      rating: 4.7,
-    },
-  ];
-
-  const allCenters = centers.length > 0 ? centers : sampleCenters;
-  const locations = ["all", ...new Set(allCenters.map((c) => c.location).filter(Boolean))];
-
-  const filteredCenters = allCenters.filter((c) => {
-    const matchesSearch =
-      (c.centerName || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (c.location || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (c.description || "").toLowerCase().includes(searchQuery.toLowerCase());
-
-    const matchesLocation =
-      selectedLocation === "all" || c.location === selectedLocation;
-
+  const filteredCenters = mockCenters.filter(center => {
+    const matchesSearch = center.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          center.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesLocation = locationFilter === "All Locations" || center.location === locationFilter;
     return matchesSearch && matchesLocation;
   });
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-12 md:py-16 w-full">
-      <BackButton />
-
-      {/* HEADER */}
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
-          Maternity Centers Directory
-        </h1>
-        <p className="text-slate-500 dark:text-slate-400">
-          Browse certified birthing suites and specialized maternity hospitals.
-        </p>
-      </div>
-
-      {/* SEARCH AND FILTERS */}
-      <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-2 border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row items-center gap-2 mb-12">
-        <div className="flex-1 flex items-center bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 px-3 w-full">
-          <Search className="w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search centers..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-transparent border-none outline-none py-2.5 px-3 text-sm text-slate-900 dark:text-white placeholder-slate-400"
-          />
+    <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <button onClick={() => navigate(-1)} className="flex items-center text-slate-500 hover:text-primary-500 mb-6 transition-colors">
+          <ArrowLeft className="w-4 h-4 mr-2" /> Back
+        </button>
+        
+        <div className="mb-10 text-center md:text-left">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Maternity Centers Directory</h1>
+          <p className="text-slate-600 text-lg">Browse certified birthing suites and specialized maternity hospitals.</p>
         </div>
 
-        <div className="flex items-center gap-2 w-full md:w-64 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 px-3">
-          <Filter className="w-4 h-4 text-slate-400" />
-          <select
-            value={selectedLocation}
-            onChange={(e) => setSelectedLocation(e.target.value)}
-            className="w-full bg-transparent border-none outline-none py-2.5 px-2 text-sm text-slate-900 dark:text-white"
-          >
-            <option value="all">All Locations</option>
-            {locations.filter((l) => l !== "all").map((loc) => (
-              <option key={loc} value={loc}>{loc}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* RESULTS LISTING */}
-      {loading ? (
-        <div className="flex justify-center py-20 text-slate-500 text-sm">
-          Loading directory...
-        </div>
-      ) : filteredCenters.length === 0 ? (
-        <div className="text-center py-24 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl">
-          <Building2 className="w-10 h-10 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">No centers found</h3>
-          <p className="text-slate-500 dark:text-slate-400 text-sm">Adjust your search or filter to see more results.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCenters.map((center) => (
-            <div
-              key={center._id}
-              className="ui-card flex flex-col justify-between p-6 h-full"
+        {/* Filters */}
+        <div className="glass-card p-4 rounded-2xl mb-10 flex flex-col md:flex-row gap-4 shadow-sm">
+          <div className="flex-1 relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5" />
+            <input 
+              type="text" 
+              placeholder="Search centers..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="input-field pl-12 h-12"
+            />
+          </div>
+          <div className="md:w-64 relative">
+            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5" />
+            <select 
+              value={locationFilter}
+              onChange={(e) => setLocationFilter(e.target.value)}
+              className="input-field pl-12 h-12 appearance-none"
             >
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center">
-                    <Building2 className="w-5 h-5" />
+              <option>All Locations</option>
+              <option>San Francisco, CA</option>
+              <option>Chicago, IL</option>
+              <option>Austin, TX</option>
+              <option>New York, NY</option>
+              <option>Los Angeles, CA</option>
+              <option>Seattle, WA</option>
+              <option>Miami, FL</option>
+              <option>Denver, CO</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Center List */}
+        {filteredCenters.length > 0 ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
+            {filteredCenters.map((center, index) => (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              key={center.id} 
+              className="bg-white p-6 rounded-2xl shadow-md border border-primary-100 hover:shadow-lg transition-shadow flex flex-col"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h2 className="text-xl font-bold text-slate-900 mb-1">{center.name}</h2>
+                  <div className="flex items-center text-slate-500 text-sm">
+                    <MapPin className="w-4 h-4 mr-1 text-slate-400" />
+                    {center.location}
                   </div>
-                  <RatingStars rating={center.rating || 4.9} />
                 </div>
-
-                <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-1 leading-tight">
-                  {center.centerName}
-                </h3>
-                
-                <div className="flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 mb-4">
-                  <MapPin className="w-3.5 h-3.5" />
-                  {center.location}
-                </div>
-
-                <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 mb-6">
-                  {center.description}
-                </p>
+                <StatusBadge status={center.status} />
               </div>
-
-              <div className="border-t border-slate-100 dark:border-slate-800 pt-4 flex items-center justify-between">
-                <span className="text-xs text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">
-                  {center.status || "Verified"}
-                </span>
-                <Link
-                  to={`/centers/${center._id}`}
-                  className="text-sm font-medium text-sky-600 hover:text-sky-700 dark:hover:text-sky-400 flex items-center gap-1"
-                >
-                  View Details <ChevronRight className="w-4 h-4" />
+              
+              <div className="mb-4">
+                <RatingStars rating={center.rating} />
+              </div>
+              
+              <p className="text-slate-600 mb-6 flex-grow">{center.description}</p>
+              
+              <div className="mt-auto">
+                <Link to={`/centers/${center.id}`} className="btn-secondary w-full text-center block">
+                  View Details
                 </Link>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-      )}
+        ) : (
+          <div className="text-center py-20 text-slate-500">
+            No maternity centers found matching your search criteria.
+          </div>
+        )}
+      </div>
     </div>
   );
 };
+
+export default CenterList;

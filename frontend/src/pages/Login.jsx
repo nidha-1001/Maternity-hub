@@ -1,97 +1,65 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { CheckSquare } from "lucide-react";
 
-export const Login = () => {
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSubmitting(true);
-
-    try {
-      const res = await login(email, password);
-      if (res.role === "admin") {
-        navigate("/admin");
-      } else {
-        navigate("/centers");
-      }
-    } catch (err) {
-      setError(err.response?.data?.message || "Invalid credentials. Please try again.");
-    } finally {
-      setSubmitting(false);
+    setLoading(true);
+    // Since backend might not have any users yet, we will just simulate a login or call the API
+    const result = await login(email, password);
+    setLoading(false);
+    if (result.success) {
+      navigate("/");
+    } else {
+      alert(result.message);
     }
   };
 
   return (
-    <div className="min-h-[85vh] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <div className="mx-auto w-10 h-10 rounded-lg bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-900 mb-4">
-          <CheckSquare className="w-5 h-5" />
-        </div>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          Sign in to your account
-        </h2>
-        <p className="mt-2 text-sm text-slate-500">
-          Or{" "}
-          <Link to="/register" className="font-medium text-sky-600 hover:text-sky-500">
-            create a new account
-          </Link>
-        </p>
-      </div>
-
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="ui-card py-8 px-4 sm:px-10">
-          
-          {error && (
-            <div className="mb-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 p-3 rounded-md text-sm font-medium">
-              {error}
-            </div>
-          )}
-
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                Email address
-              </label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                Password
-              </label>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={submitting}
-              className="btn btn-primary w-full py-2.5 mt-2"
-            >
-              {submitting ? "Signing in..." : "Sign in"}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+     <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-primary-50 flex items-center justify-center">
+       <div className="max-w-md w-full bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-sm border border-primary-100">
+         <h2 className="text-3xl font-bold text-slate-900 text-center mb-2">Sign in to your account</h2>
+         <p className="text-center text-slate-500 mb-8">
+           Or <Link to="/register" className="text-primary-600 hover:text-primary-700 font-medium">create a new account</Link>
+         </p>
+         
+         <form onSubmit={handleSubmit} className="space-y-5">
+           <div>
+             <label className="block text-sm font-medium text-slate-700 mb-1">Email address</label>
+             <input 
+               type="email" 
+               required 
+               value={email} 
+               onChange={e => setEmail(e.target.value)} 
+               placeholder="Enter your email address"
+               className="input-field bg-slate-50" 
+             />
+           </div>
+           <div>
+             <label className="block text-sm font-medium text-slate-700 mb-1">Password</label>
+             <input 
+               type="password" 
+               required 
+               value={password} 
+               onChange={e => setPassword(e.target.value)} 
+               placeholder="Enter your password"
+               className="input-field bg-slate-50" 
+             />
+           </div>
+           <button type="submit" disabled={loading} className="btn-primary w-full h-12 text-lg mt-2">
+             {loading ? "Signing in..." : "Sign in"}
+           </button>
+         </form>
+       </div>
+     </div>
   );
 };
+
+export default Login;
