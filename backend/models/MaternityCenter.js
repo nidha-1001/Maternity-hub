@@ -1,56 +1,27 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-const maternityCenterSchema = new mongoose.Schema(
-{
-    centerName: {
-        type: String,
-        required: true,
-    },
+const MaternityCenterSchema = new mongoose.Schema({
+    centerName: { type: String, required: true },
+    ownerName: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    location: { type: String, required: true },
+    description: { type: String },
+    status: { type: String, enum: ["Pending", "Approved", "Rejected"], default: "Pending" },
+}, { timestamps: true });
 
-    ownerName: {
-        type: String,
-        required: true,
-    },
+MaternityCenterSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
 
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
+MaternityCenterSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
 
-    password: {
-        type: String,
-        required: true,
-    },
-
-    phone: {
-        type: String,
-        required: true,
-    },
-
-    address: {
-        type: String,
-        required: true,
-    },
-
-    location: {
-        type: String,
-        required: true,
-    },
-
-    description: {
-        type: String,
-    },
-
-    status: {
-        type: String,
-        enum: ["Pending", "Approved", "Rejected"],
-        default: "Pending",
-    }
-},
-{
-    timestamps: true,
-}
-);
-
-module.exports = mongoose.model("MaternityCenter", maternityCenterSchema);
+module.exports = mongoose.model('MaternityCenter', MaternityCenterSchema);
