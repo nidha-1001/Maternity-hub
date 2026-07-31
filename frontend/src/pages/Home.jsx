@@ -37,7 +37,7 @@ const Home = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg md:text-xl text-slate-600 mb-12 max-w-2xl mx-auto"
           >
-            Discover top-rated maternity hospitals, luxury birthing suites, and postnatal care experts. Built for a seamless and trustworthy experience.
+            Discover top-rated maternity centers and postnatal care experts. Built for a seamless and trustworthy experience.
           </motion.p>
           
           {/* Search Box */}
@@ -45,7 +45,7 @@ const Home = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="glass-card p-4 rounded-3xl max-w-2xl mx-auto flex flex-col sm:flex-row gap-4 shadow-lg"
+            className="glass-card p-4 rounded-3xl max-w-2xl mx-auto flex flex-col sm:flex-row gap-4 shadow-lg ring-2 ring-pink-400 ring-offset-2 ring-offset-primary-50"
           >
             <div className="flex-1 relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5" />
@@ -95,42 +95,45 @@ const Home = () => {
               <p className="text-slate-600 max-w-2xl">Highly rated birthing facilities equipped with modern infrastructure.</p>
             </div>
             <Link to="/centers" className="text-primary-600 font-medium hover:text-primary-700 flex items-center mt-4 md:mt-0">
-              View all directory <ArrowRight className="w-4 h-4 ml-1" />
+              View all centers <ArrowRight className="w-4 h-4 ml-1" />
             </Link>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
             {/* Center Card 1 */}
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl p-6 shadow-md border border-primary-100">
-               <div className="flex justify-between items-start mb-4">
-                 <div className="font-bold text-amber-500 text-lg flex items-center">⭐ 4.9</div>
+            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl p-6 shadow-md border border-primary-100 flex flex-col justify-between h-full">
+               <div>
+                 <div className="flex justify-between items-start mb-4">
+                   <div className="font-bold text-amber-500 text-lg flex items-center">⭐ 4.9</div>
+                   <div className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">5.2 km away</div>
+                 </div>
+                 <h3 className="text-xl font-bold text-slate-900 mb-6">Blossom Maternity Center</h3>
                </div>
-               <h3 className="text-xl font-bold text-slate-900 mb-2">Blossom Motherhood & Birthing Suite</h3>
-               <p className="text-sm font-medium text-slate-500 mb-4">San Francisco, CA</p>
-               <p className="text-slate-600 text-sm mb-6">Luxury natural birth suites, 24/7 obstetricians, water birth tubs & hydrotherapy.</p>
-               <Link to="/centers/1" className="text-primary-600 font-medium hover:text-primary-700 text-sm">View full details →</Link>
+               <Link to="/centers/1" className="text-primary-600 font-medium hover:text-primary-700 text-sm mt-auto">View full details →</Link>
             </motion.div>
             
             {/* Center Card 2 */}
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl p-6 shadow-md border border-primary-100">
-               <div className="flex justify-between items-start mb-4">
-                 <div className="font-bold text-amber-500 text-lg flex items-center">⭐ 4.8</div>
+            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl p-6 shadow-md border border-primary-100 flex flex-col justify-between h-full">
+               <div>
+                 <div className="flex justify-between items-start mb-4">
+                   <div className="font-bold text-amber-500 text-lg flex items-center">⭐ 4.8</div>
+                   <div className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">8.5 km away</div>
+                 </div>
+                 <h3 className="text-xl font-bold text-slate-900 mb-6">St. Jude Postnatal Care</h3>
                </div>
-               <h3 className="text-xl font-bold text-slate-900 mb-2">St. Jude Women & Infant Care</h3>
-               <p className="text-sm font-medium text-slate-500 mb-4">Chicago, IL</p>
-               <p className="text-slate-600 text-sm mb-6">Level III NICU, comprehensive high-risk pregnancy care & prenatal yoga workshops.</p>
-               <Link to="/centers/2" className="text-primary-600 font-medium hover:text-primary-700 text-sm">View full details →</Link>
+               <Link to="/centers/2" className="text-primary-600 font-medium hover:text-primary-700 text-sm mt-auto">View full details →</Link>
             </motion.div>
 
             {/* Center Card 3 */}
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl p-6 shadow-md border border-primary-100">
-               <div className="flex justify-between items-start mb-4">
-                 <div className="font-bold text-amber-500 text-lg flex items-center">⭐ 5.0</div>
+            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl p-6 shadow-md border border-primary-100 flex flex-col justify-between h-full">
+               <div>
+                 <div className="flex justify-between items-start mb-4">
+                   <div className="font-bold text-amber-500 text-lg flex items-center">⭐ 5.0</div>
+                   <div className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">12.1 km away</div>
+                 </div>
+                 <h3 className="text-xl font-bold text-slate-900 mb-6">Serenity Maternity Center</h3>
                </div>
-               <h3 className="text-xl font-bold text-slate-900 mb-2">Serenity Maternity & Postnatal Haven</h3>
-               <p className="text-sm font-medium text-slate-500 mb-4">Austin, TX</p>
-               <p className="text-slate-600 text-sm mb-6">Postpartum confinement suites, lactation specialists, and maternal wellness retreat.</p>
-               <Link to="/centers/3" className="text-primary-600 font-medium hover:text-primary-700 text-sm">View full details →</Link>
+               <Link to="/centers/3" className="text-primary-600 font-medium hover:text-primary-700 text-sm mt-auto">View full details →</Link>
             </motion.div>
           </div>
         </div>

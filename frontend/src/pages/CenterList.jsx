@@ -8,64 +8,72 @@ import { motion } from "framer-motion";
 const mockCenters = [
   {
     id: 1,
-    name: "Blossom Motherhood & Birthing Suite",
+    name: "Blossom Maternity Center",
     location: "San Francisco, CA",
+    distance: "5.2 km away",
     description: "Luxury natural birth suites, 24/7 obstetricians, water birth tubs, and postpartum confinement care.",
     rating: 4.9,
     status: "Approved"
   },
   {
     id: 2,
-    name: "St. Jude Women & Infant Care Center",
+    name: "St. Jude Postnatal Care",
     location: "Chicago, IL",
+    distance: "8.5 km away",
     description: "Level III NICU, comprehensive high-risk pregnancy management, fetal cardiology & ultrasound.",
     rating: 4.8,
     status: "Approved"
   },
   {
     id: 3,
-    name: "Serenity Maternity & Postnatal Haven",
+    name: "Serenity Maternity Center",
     location: "Austin, TX",
+    distance: "12.1 km away",
     description: "Postpartum nursing retreat, lactation consultants, maternal mental wellness counseling, newborn nutrition.",
     rating: 5.0,
     status: "Approved"
   },
   {
     id: 4,
-    name: "Grace Family Birthing Hospital",
+    name: "Grace Postnatal Care",
     location: "New York, NY",
+    distance: "3.4 km away",
     description: "Comprehensive prenatal diagnostics, painless epidural labor suites, and 24/7 emergency OB/GYN response.",
     rating: 4.7,
     status: "Approved"
   },
   {
     id: 5,
-    name: "Lumina Women's Health & Delivery",
+    name: "Lumina Maternity Center",
     location: "Los Angeles, CA",
+    distance: "15.8 km away",
     description: "Premium maternal care focusing on holistic wellness, customized birth plans, and advanced prenatal genetics.",
     rating: 4.9,
     status: "Approved"
   },
   {
     id: 6,
-    name: "Nurture Care Maternity Home",
+    name: "Nurture Postnatal Care",
     location: "Seattle, WA",
+    distance: "6.7 km away",
     description: "Cozy, home-like birthing environment with highly experienced midwives and comprehensive doula support.",
     rating: 4.8,
     status: "Approved"
   },
   {
     id: 7,
-    name: "Sunrise Neonatal & Birthing Institute",
+    name: "Sunrise Maternity Center",
     location: "Miami, FL",
+    distance: "9.2 km away",
     description: "Specialized in high-risk pregnancies with an award-winning Level IV NICU and dedicated maternal-fetal medicine specialists.",
     rating: 4.9,
     status: "Premium"
   },
   {
     id: 8,
-    name: "Harmony Family Birthing Suites",
+    name: "Harmony Postnatal Care",
     location: "Denver, CO",
+    distance: "11.0 km away",
     description: "Eco-friendly birthing center offering water births, hypnobirthing classes, and postpartum family integration.",
     rating: 4.7,
     status: "Approved"
@@ -148,7 +156,7 @@ const CenterList = () => {
                   <h2 className="text-xl font-bold text-slate-900 mb-1">{center.name}</h2>
                   <div className="flex items-center text-slate-500 text-sm">
                     <MapPin className="w-4 h-4 mr-1 text-slate-400" />
-                    {center.location}
+                    {center.location} <span className="mx-2">•</span> {center.distance}
                   </div>
                 </div>
                 <StatusBadge status={center.status} />
