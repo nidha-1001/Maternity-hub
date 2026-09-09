@@ -10,14 +10,13 @@ const MaternityCenterSchema = new mongoose.Schema({
     address: { type: String, required: true },
     location: { type: String, required: true },
     description: { type: String },
-    status: { type: String, enum: ["Pending", "Approved", "Rejected"], default: "Pending" },
+    status: { type: String, enum: ["Pending", "Approved", "Rejected"], default: "Approved" },
 }, { timestamps: true });
 
-MaternityCenterSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
+MaternityCenterSchema.pre('save', async function () {
+    if (!this.isModified('password')) return;
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-    next();
 });
 
 MaternityCenterSchema.methods.matchPassword = async function (enteredPassword) {

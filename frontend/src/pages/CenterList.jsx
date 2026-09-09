@@ -1,100 +1,47 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Search, MapPin, ArrowLeft } from "lucide-react";
 import { RatingStars } from "../components/RatingStars";
 import { StatusBadge } from "../components/StatusBadge";
 import { motion } from "framer-motion";
-
-const mockCenters = [
-  {
-    id: 1,
-    name: "Blossom Maternity Center",
-    location: "San Francisco, CA",
-    distance: "5.2 km away",
-    description: "Luxury natural birth suites, 24/7 obstetricians, water birth tubs, and postpartum confinement care.",
-    rating: 4.9,
-    status: "Approved"
-  },
-  {
-    id: 2,
-    name: "St. Jude Postnatal Care",
-    location: "Chicago, IL",
-    distance: "8.5 km away",
-    description: "Level III NICU, comprehensive high-risk pregnancy management, fetal cardiology & ultrasound.",
-    rating: 4.8,
-    status: "Approved"
-  },
-  {
-    id: 3,
-    name: "Serenity Maternity Center",
-    location: "Austin, TX",
-    distance: "12.1 km away",
-    description: "Postpartum nursing retreat, lactation consultants, maternal mental wellness counseling, newborn nutrition.",
-    rating: 5.0,
-    status: "Approved"
-  },
-  {
-    id: 4,
-    name: "Grace Postnatal Care",
-    location: "New York, NY",
-    distance: "3.4 km away",
-    description: "Comprehensive prenatal diagnostics, painless epidural labor suites, and 24/7 emergency OB/GYN response.",
-    rating: 4.7,
-    status: "Approved"
-  },
-  {
-    id: 5,
-    name: "Lumina Maternity Center",
-    location: "Los Angeles, CA",
-    distance: "15.8 km away",
-    description: "Premium maternal care focusing on holistic wellness, customized birth plans, and advanced prenatal genetics.",
-    rating: 4.9,
-    status: "Approved"
-  },
-  {
-    id: 6,
-    name: "Nurture Postnatal Care",
-    location: "Seattle, WA",
-    distance: "6.7 km away",
-    description: "Cozy, home-like birthing environment with highly experienced midwives and comprehensive doula support.",
-    rating: 4.8,
-    status: "Approved"
-  },
-  {
-    id: 7,
-    name: "Sunrise Maternity Center",
-    location: "Miami, FL",
-    distance: "9.2 km away",
-    description: "Specialized in high-risk pregnancies with an award-winning Level IV NICU and dedicated maternal-fetal medicine specialists.",
-    rating: 4.9,
-    status: "Premium"
-  },
-  {
-    id: 8,
-    name: "Harmony Postnatal Care",
-    location: "Denver, CO",
-    distance: "11.0 km away",
-    description: "Eco-friendly birthing center offering water births, hypnobirthing classes, and postpartum family integration.",
-    rating: 4.7,
-    status: "Approved"
-  }
-];
+import { api } from "../services/api";
 
 const CenterList = () => {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const [searchTerm, setSearchTerm] = useState(queryParams.get("search") || "");
   const [locationFilter, setLocationFilter] = useState("All Locations");
+  const [centers, setCenters] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const filteredCenters = mockCenters.filter(center => {
-    const matchesSearch = center.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          center.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesLocation = locationFilter === "All Locations" || center.location === locationFilter;
-    return matchesSearch && matchesLocation;
-  });
+  // Fetch centers whenever search term or location changes
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      const fetchCenters = async () => {
+        setLoading(true);
+        try {
+          const params = {};
+          if (searchTerm) params.search = searchTerm.trim();
+          if (locationFilter && locationFilter !== "All Locations") params.location = locationFilter;
+          const res = await api.get("/centers", { params });
+          setCenters(res.data || []);
+        } catch (err) {
+          console.error("Error fetching centers:", err);
+          setCenters([]);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchCenters();
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [searchTerm, locationFilter]);
 
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8">
@@ -102,7 +49,6 @@ const CenterList = () => {
         <button onClick={() => navigate(-1)} className="flex items-center text-slate-500 hover:text-primary-500 mb-6 transition-colors">
           <ArrowLeft className="w-4 h-4 mr-2" /> Back
         </button>
-        
         <div className="mb-10 text-center md:text-left">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Maternity Centers Directory</h1>
           <p className="text-slate-600 text-lg">Browse certified birthing suites and specialized maternity hospitals.</p>
@@ -112,9 +58,9 @@ const CenterList = () => {
         <div className="glass-card p-4 rounded-2xl mb-10 flex flex-col md:flex-row gap-4 shadow-sm">
           <div className="flex-1 relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5" />
-            <input 
-              type="text" 
-              placeholder="Search centers..." 
+            <input
+              type="text"
+              placeholder="Search centers..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="input-field pl-12 h-12"
@@ -122,7 +68,7 @@ const CenterList = () => {
           </div>
           <div className="md:w-64 relative">
             <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5" />
-            <select 
+            <select
               value={locationFilter}
               onChange={(e) => setLocationFilter(e.target.value)}
               className="input-field pl-12 h-12 appearance-none"
@@ -140,46 +86,44 @@ const CenterList = () => {
           </div>
         </div>
 
-        {/* Center List */}
-        {filteredCenters.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
-            {filteredCenters.map((center, index) => (
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              key={center.id} 
-              className="bg-white p-6 rounded-2xl shadow-md border border-primary-100 hover:shadow-lg transition-shadow flex flex-col"
-            >
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h2 className="text-xl font-bold text-slate-900 mb-1">{center.name}</h2>
-                  <div className="flex items-center text-slate-500 text-sm">
-                    <MapPin className="w-4 h-4 mr-1 text-slate-400" />
-                    {center.location} <span className="mx-2">•</span> {center.distance}
-                  </div>
-                </div>
-                <StatusBadge status={center.status} />
-              </div>
-              
-              <div className="mb-4">
-                <RatingStars rating={center.rating} />
-              </div>
-              
-              <p className="text-slate-600 mb-6 flex-grow">{center.description}</p>
-              
-              <div className="mt-auto">
-                <Link to={`/centers/${center.id}`} className="btn-secondary w-full text-center block">
-                  View Details
-                </Link>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        ) : (
-          <div className="text-center py-20 text-slate-500">
-            No maternity centers found matching your search criteria.
+        {loading ? (
+          <div className="flex items-center justify-center py-20 text-slate-500">
+            <span>Loading centers...</span>
           </div>
+        ) : centers.length > 0 ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
+            {centers.map((center, index) => (
+              <motion.div
+                key={center._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white p-6 rounded-2xl shadow-md border border-primary-100 hover:shadow-lg transition-shadow flex flex-col"
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h2 className="text-xl font-bold text-slate-900 mb-1">{center.centerName}</h2>
+                    <div className="flex items-center text-slate-500 text-sm">
+                      <MapPin className="w-4 h-4 mr-1 text-slate-400" />
+                      {center.location}
+                    </div>
+                  </div>
+                  <StatusBadge status={center.status} />
+                </div>
+                <div className="mb-4">
+                  <RatingStars rating={center.rating} />
+                </div>
+                <p className="text-slate-600 mb-6 flex-grow">{center.description}</p>
+                <div className="mt-auto">
+                  <Link to={`/centers/${center._id}`} className="btn-secondary w-full text-center block">
+                    View Details
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20 text-slate-500">No maternity centers found matching your criteria.</div>
         )}
       </div>
     </div>

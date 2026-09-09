@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { HeartPulse, Menu, User } from "lucide-react";
+import { HeartPulse, Menu, User, ShieldAlert } from "lucide-react";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
@@ -25,10 +25,19 @@ export const Navbar = () => {
             <div className="flex items-center gap-4 pl-4 border-l border-slate-200">
               {user ? (
                 <div className="flex items-center gap-4">
-                  <Link to={user.role === 'admin' ? '/admin' : '/profile'} className="flex items-center gap-2 text-slate-700 hover:text-primary-500">
-                    <User className="w-5 h-5" />
+                  {user.role === 'admin' && (
+                    <Link
+                      to="/admin"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary-50 text-primary-700 font-bold text-xs border border-primary-200 hover:bg-primary-100 transition-all shadow-sm"
+                    >
+                      <ShieldAlert className="w-4 h-4 text-primary-500" />
+                      Control Center
+                    </Link>
+                  )}
+                  <div className="flex items-center gap-2 text-slate-700 font-medium text-sm">
+                    <User className="w-5 h-5 text-primary-500" />
                     <span>{user.name}</span>
-                  </Link>
+                  </div>
                   <button onClick={logout} className="btn-secondary text-sm">Logout</button>
                 </div>
               ) : (
@@ -56,9 +65,19 @@ export const Navbar = () => {
               <hr className="border-slate-100" />
               {user ? (
                 <>
-                  <Link to={user.role === 'admin' ? '/admin' : '/profile'} onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium flex items-center gap-2">
-                    <User className="w-5 h-5" /> {user.name}
-                  </Link>
+                  {user.role === 'admin' && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl bg-primary-50 text-primary-700 font-bold text-sm border border-primary-200"
+                    >
+                      <ShieldAlert className="w-4 h-4 text-primary-500" />
+                      Admin Control Center
+                    </Link>
+                  )}
+                  <div className="text-slate-700 font-medium flex items-center gap-2">
+                    <User className="w-5 h-5 text-primary-500" /> {user.name}
+                  </div>
                   <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="btn-secondary w-full text-center">Logout</button>
                 </>
               ) : (

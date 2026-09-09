@@ -1,8 +1,41 @@
+import { useContext, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Search, Building, Baby, Users, HeartPulse, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Search, Building, Baby, Users, HeartPulse, ArrowRight, ShieldAlert, MapPin, Star } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { api } from "../services/api";
 
 const Home = () => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useState("");
+  const [featuredCenters, setFeaturedCenters] = useState([]);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const res = await api.get("/centers");
+        const approved = (res.data || []).filter(c => c.status === "Approved");
+        // Sort by rating descending, take top 3
+        const top3 = approved.sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 3);
+        setFeaturedCenters(top3);
+      } catch (err) {
+        console.error("Error fetching featured centers:", err);
+      }
+    };
+    fetchFeatured();
+  }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const q = searchInput.trim();
+    if (q) {
+      navigate(`/centers?search=${encodeURIComponent(q)}`);
+    } else {
+      navigate("/centers");
+    }
+  };
+
   return (
     <div className="min-h-screen pt-16 flex flex-col">
       {/* Hero Section */}
@@ -13,6 +46,30 @@ const Home = () => {
         </div>
         
         <div className="relative z-10 max-w-4xl mx-auto text-center">
+          {user?.role === "admin" && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-8 p-4 max-w-xl mx-auto bg-white/90 backdrop-blur-md border-2 border-primary-200 rounded-2xl shadow-md flex flex-col sm:flex-row items-center justify-between gap-4 text-left"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-primary-100 text-primary-600 flex items-center justify-center font-bold">
+                  <ShieldAlert className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-slate-900">Admin Control Center</div>
+                  <div className="text-xs text-slate-500">You are signed in with admin privileges</div>
+                </div>
+              </div>
+              <Link
+                to="/admin"
+                className="btn-primary py-2.5 px-5 text-sm font-semibold whitespace-nowrap flex items-center gap-2 shadow-sm w-full sm:w-auto justify-center"
+              >
+                Go to Control Center <ArrowRight className="w-4 h-4" />
+              </Link>
+            </motion.div>
+          )}
+
           <motion.div
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
@@ -27,7 +84,7 @@ const Home = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8"
           >
-            Find & Book Certified <br/>
+            Find &amp; Book Certified <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-secondary-500">Maternity Centers</span>
           </motion.h1>
           
@@ -41,7 +98,8 @@ const Home = () => {
           </motion.p>
           
           {/* Search Box */}
-          <motion.div 
+          <motion.form
+            onSubmit={handleSearch}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -53,12 +111,14 @@ const Home = () => {
                 type="text" 
                 placeholder="Search by city, center name..." 
                 className="input-field pl-12 h-14 bg-white/70 border-none"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
               />
             </div>
-            <button className="btn-primary h-14 px-8 text-lg w-full sm:w-auto">
+            <button type="submit" className="btn-primary h-14 px-8 text-lg w-full sm:w-auto">
               Search
             </button>
-          </motion.div>
+          </motion.form>
         </div>
       </section>
 
@@ -100,41 +160,43 @@ const Home = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Center Card 1 */}
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl p-6 shadow-md border border-primary-100 flex flex-col justify-between h-full">
-               <div>
-                 <div className="flex justify-between items-start mb-4">
-                   <div className="font-bold text-amber-500 text-lg flex items-center">⭐ 4.9</div>
-                   <div className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">5.2 km away</div>
-                 </div>
-                 <h3 className="text-xl font-bold text-slate-900 mb-6">Blossom Maternity Center</h3>
-               </div>
-               <Link to="/centers/1" className="text-primary-600 font-medium hover:text-primary-700 text-sm mt-auto">View full details →</Link>
-            </motion.div>
-            
-            {/* Center Card 2 */}
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl p-6 shadow-md border border-primary-100 flex flex-col justify-between h-full">
-               <div>
-                 <div className="flex justify-between items-start mb-4">
-                   <div className="font-bold text-amber-500 text-lg flex items-center">⭐ 4.8</div>
-                   <div className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">8.5 km away</div>
-                 </div>
-                 <h3 className="text-xl font-bold text-slate-900 mb-6">St. Jude Postnatal Care</h3>
-               </div>
-               <Link to="/centers/2" className="text-primary-600 font-medium hover:text-primary-700 text-sm mt-auto">View full details →</Link>
-            </motion.div>
-
-            {/* Center Card 3 */}
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl p-6 shadow-md border border-primary-100 flex flex-col justify-between h-full">
-               <div>
-                 <div className="flex justify-between items-start mb-4">
-                   <div className="font-bold text-amber-500 text-lg flex items-center">⭐ 5.0</div>
-                   <div className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">12.1 km away</div>
-                 </div>
-                 <h3 className="text-xl font-bold text-slate-900 mb-6">Serenity Maternity Center</h3>
-               </div>
-               <Link to="/centers/3" className="text-primary-600 font-medium hover:text-primary-700 text-sm mt-auto">View full details →</Link>
-            </motion.div>
+            {featuredCenters.length > 0 ? (
+              featuredCenters.map((center) => (
+                <motion.div
+                  key={center._id}
+                  whileHover={{ y: -5 }}
+                  className="bg-white rounded-2xl p-6 shadow-md border border-primary-100 flex flex-col justify-between h-full"
+                >
+                  <div>
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="font-bold text-amber-500 text-lg flex items-center gap-1">
+                        <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                        {center.rating?.toFixed(1) || "4.8"}
+                      </div>
+                      <div className="flex items-center text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded-md gap-1">
+                        <MapPin className="w-3 h-3" />{center.location}
+                      </div>
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">{center.centerName}</h3>
+                    <p className="text-slate-500 text-sm mb-6 line-clamp-2">{center.description}</p>
+                  </div>
+                  <Link to={`/centers/${center._id}`} className="text-primary-600 font-medium hover:text-primary-700 text-sm mt-auto">
+                    View full details →
+                  </Link>
+                </motion.div>
+              ))
+            ) : (
+              // Fallback skeleton cards while loading
+              [1, 2, 3].map((i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 shadow-md border border-primary-100 animate-pulse">
+                  <div className="h-4 bg-slate-200 rounded w-1/3 mb-4"></div>
+                  <div className="h-6 bg-slate-200 rounded w-2/3 mb-2"></div>
+                  <div className="h-4 bg-slate-200 rounded w-full mb-1"></div>
+                  <div className="h-4 bg-slate-200 rounded w-3/4 mb-6"></div>
+                  <div className="h-4 bg-slate-200 rounded w-1/4"></div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </section>

@@ -6,7 +6,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import CenterList from "../pages/CenterList";
 import CenterDetails from "../pages/CenterDetails";
-// import AdminDashboard from "../pages/AdminDashboard";
+import AdminDashboard from "../pages/AdminDashboard";
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { user, loading } = useContext(AuthContext);
@@ -26,7 +26,7 @@ export const AppRoutes = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/centers" element={<CenterList />} />
       <Route path="/centers/:id" element={<CenterDetails />} />
-      {/* <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} /> */}
+      <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

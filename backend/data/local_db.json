@@ -1,0 +1,213 @@
+{
+  "users": [
+    {
+      "_id": "6aa0eac178a5a365c13318dc",
+      "name": "Platform Admin",
+      "email": "admin@maternityhub.com",
+      "password": "$2b$10$DsaldHnp7osRVc85ngdTtukDQfVEpe7fnpaNCgZWulmiLLVZwclXG",
+      "phone": "+1 (800) 555-0199",
+      "role": "admin",
+      "createdAt": "2026-09-09T05:12:33.118Z"
+    },
+    {
+      "_id": "6aa0eac1f9dc466a860d372d",
+      "name": "Dr. Sarah Jenkins",
+      "email": "provider@blossom.com",
+      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuomJXJPF1YmthzDCfesh/KfBA3iMrBtS",
+      "phone": "+1 (415) 555-0192",
+      "role": "provider",
+      "createdAt": "2026-09-09T05:12:33.207Z"
+    },
+    {
+      "_id": "6aa0eac1c002e509c872b7c1",
+      "name": "Emily Watson",
+      "email": "patient@gmail.com",
+      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuyA9oWFwl0wOU/xhm4UqBhJr3uDzd0FO",
+      "phone": "+1 (555) 234-5678",
+      "role": "user",
+      "createdAt": "2026-09-09T05:12:33.284Z"
+    }
+  ],
+  "centers": [
+    {
+      "_id": "6aa0eac1e70b19c68ac3f230",
+      "centerName": "Blossom Maternity Center",
+      "ownerName": "Dr. Sarah Jenkins",
+      "email": "provider@blossom.com",
+      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuomJXJPF1YmthzDCfesh/KfBA3iMrBtS",
+      "phone": "+1 (415) 555-0192",
+      "address": "450 Healthcare Ave, Suite 200",
+      "location": "San Francisco, CA",
+      "description": "Luxury natural birth suites, 24/7 obstetricians, water birth tubs, and postpartum confinement care.",
+      "status": "Approved",
+      "rating": 4.9,
+      "reviewsCount": 12,
+      "createdAt": "2026-09-02T05:12:33.360Z"
+    },
+    {
+      "_id": "6aa0eac10203b525371e6716",
+      "centerName": "St. Jude Postnatal Care",
+      "ownerName": "Dr. Robert Vance",
+      "email": "care@stjude-infant.care",
+      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuLpwjHVZVpovy4brd2XD70QRTH/A4HIu",
+      "phone": "+1 (312) 555-0921",
+      "address": "1200 Hope Blvd",
+      "location": "Chicago, IL",
+      "description": "Level III NICU, comprehensive high-risk pregnancy management, fetal cardiology & ultrasound.",
+      "status": "Approved",
+      "rating": 4.8,
+      "reviewsCount": 8,
+      "createdAt": "2026-09-03T05:12:33.434Z"
+    },
+    {
+      "_id": "6aa0eac153c872e6e2f9313b",
+      "centerName": "Serenity Maternity Center",
+      "ownerName": "Elena Rostova",
+      "email": "hello@serenityhaven.com",
+      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuLpwjHVZVpovy4brd2XD70QRTH/A4HIu",
+      "phone": "+1 (512) 555-7732",
+      "address": "44 Wellness Way",
+      "location": "Austin, TX",
+      "description": "Postpartum nursing retreat, lactation consultants, maternal mental wellness counseling, newborn nutrition.",
+      "status": "Approved",
+      "rating": 5,
+      "reviewsCount": 15,
+      "createdAt": "2026-09-04T05:12:33.508Z"
+    },
+    {
+      "_id": "6aa0eac11917dc3aea20d96b",
+      "centerName": "Grace Postnatal Care",
+      "ownerName": "Dr. Michael Chen",
+      "email": "info@gracefamily.nyc",
+      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuLpwjHVZVpovy4brd2XD70QRTH/A4HIu",
+      "phone": "+1 (212) 555-8891",
+      "address": "888 Madison Ave",
+      "location": "New York, NY",
+      "description": "Comprehensive prenatal diagnostics, painless epidural labor suites, and 24/7 emergency OB/GYN response.",
+      "status": "Approved",
+      "rating": 4.7,
+      "reviewsCount": 9,
+      "createdAt": "2026-09-05T05:12:33.584Z"
+    },
+    {
+      "_id": "6aa0eac16147ff0afcf0672d",
+      "centerName": "Lumina Maternity Center",
+      "ownerName": "Sophia Martinez",
+      "email": "contact@luminawomens.com",
+      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuLpwjHVZVpovy4brd2XD70QRTH/A4HIu",
+      "phone": "+1 (310) 555-1200",
+      "address": "7700 Sunset Blvd",
+      "location": "Los Angeles, CA",
+      "description": "Premium maternal care focusing on holistic wellness, customized birth plans, and advanced prenatal genetics.",
+      "status": "Approved",
+      "rating": 4.9,
+      "reviewsCount": 11,
+      "createdAt": "2026-09-06T05:12:33.659Z"
+    },
+    {
+      "_id": "6aa0eac1883e62b4954d51aa",
+      "centerName": "Nurture Postnatal Care",
+      "ownerName": "Rachel Green",
+      "email": "hello@nurturecare.com",
+      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuLpwjHVZVpovy4brd2XD70QRTH/A4HIu",
+      "phone": "+1 (206) 555-4309",
+      "address": "204 Pine St",
+      "location": "Seattle, WA",
+      "description": "Cozy, home-like birthing environment with highly experienced midwives and comprehensive doula support.",
+      "status": "Approved",
+      "rating": 4.8,
+      "reviewsCount": 6,
+      "createdAt": "2026-09-07T05:12:33.731Z"
+    },
+    {
+      "_id": "6aa0eac1829325a2d2044200",
+      "centerName": "Hope Haven Birthing Suites",
+      "ownerName": "Dr. James Wilson",
+      "email": "contact@hopehaven.org",
+      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuLpwjHVZVpovy4brd2XD70QRTH/A4HIu",
+      "phone": "+1 (404) 555-3321",
+      "address": "500 Peachtree St",
+      "location": "Atlanta, GA",
+      "description": "Specialized fetal medicine, water birth delivery, and newborn intensive care unit.",
+      "status": "Pending",
+      "rating": 4.8,
+      "reviewsCount": 0,
+      "createdAt": "2026-09-09T05:12:33.808Z"
+    }
+  ],
+  "services": [
+    {
+      "_id": "6aa0eac12bc9f11a512081bb",
+      "center": "6aa0eac1e70b19c68ac3f230",
+      "serviceName": "Postnatal Lactation & Newborn Nursing",
+      "description": "Certified lactation nurse consultation, infant attachment guidance.",
+      "price": 3500,
+      "duration": "60 mins",
+      "availability": true
+    },
+    {
+      "_id": "6aa0eac132cf6b4e3cd697eb",
+      "center": "6aa0eac1e70b19c68ac3f230",
+      "serviceName": "Postpartum Recovery & Wellness Care",
+      "description": "Physical recovery assistance, mental wellness check, and nutrition plan.",
+      "price": 5000,
+      "duration": "90 mins",
+      "availability": true
+    },
+    {
+      "_id": "6aa0eac1a890b61c9e630411",
+      "center": "6aa0eac1e70b19c68ac3f230",
+      "serviceName": "Prenatal Health & Sonography Package",
+      "description": "Full fetal anatomy scan, maternal health assessment, and ultrasound recording.",
+      "price": 2500,
+      "duration": "45 mins",
+      "availability": true
+    },
+    {
+      "_id": "6aa0eac1a7e47bda94197a11",
+      "center": "6aa0eac1e70b19c68ac3f230",
+      "serviceName": "Luxury Water Birth Delivery Suite",
+      "description": "Private birthing tub, personal midwife, obstetrician on standby, and care kit.",
+      "price": 45000,
+      "duration": "24 Hours Care",
+      "availability": true
+    }
+  ],
+  "reviews": [
+    {
+      "_id": "6aa0eac1a563b3df2188ccb3",
+      "center": "6aa0eac1e70b19c68ac3f230",
+      "user": {
+        "_id": "6aa0eac1c002e509c872b7c1",
+        "name": "Emily Watson"
+      },
+      "rating": 5,
+      "comment": "The birth suite was extraordinarily peaceful and the nurses were so compassionate!"
+    }
+  ],
+  "bookings": [
+    {
+      "_id": "6aa0eac1026cfd7237d2b017",
+      "user": {
+        "_id": "6aa0eac1c002e509c872b7c1",
+        "name": "Emily Watson",
+        "email": "patient@gmail.com",
+        "phone": "+1 (555) 234-5678"
+      },
+      "center": {
+        "_id": "6aa0eac1e70b19c68ac3f230",
+        "centerName": "Blossom Maternity Center",
+        "address": "450 Healthcare Ave, Suite 200",
+        "location": "San Francisco, CA"
+      },
+      "service": {
+        "serviceName": "Postnatal Lactation & Newborn Nursing",
+        "price": 3500,
+        "duration": "60 mins"
+      },
+      "bookingDate": "2026-09-12T05:12:33.808Z",
+      "bookingStatus": "Accepted",
+      "createdAt": "2026-09-09T05:12:33.808Z"
+    }
+  ]
+}

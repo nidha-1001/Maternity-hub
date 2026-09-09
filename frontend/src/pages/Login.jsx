@@ -16,7 +16,11 @@ const Login = () => {
     const result = await login(email, password);
     setLoading(false);
     if (result.success) {
-      navigate("/");
+      if (result.user?.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } else {
       alert(result.message);
     }
