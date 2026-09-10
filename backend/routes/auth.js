@@ -16,6 +16,23 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Name, email and password are required' });
         }
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ message: 'Please provide a valid email address' });
+        }
+
+        if (password.length < 6) {
+            return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+        }
+
+        let cleanPhone = '';
+        if (phone) {
+            cleanPhone = String(phone).replace(/\D/g, '');
+            if (cleanPhone.length !== 10) {
+                return res.status(400).json({ message: 'Please provide a valid 10-digit phone number' });
+            }
+        }
+
         // Always enforce role 'user' for public registration
         const role = 'user';
 
@@ -23,7 +40,7 @@ router.post('/register', async (req, res) => {
             const userExists = await User.findOne({ email });
             if (userExists) return res.status(400).json({ message: 'User already exists' });
 
-            const user = await User.create({ name, email, password, phone, role });
+            const user = await User.create({ name: name.trim(), email: email.toLowerCase().trim(), password, phone: cleanPhone, role });
             const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '30d' });
 
             return res.status(201).json({ _id: user._id, name: user.name, email: user.email, role: user.role, token });
@@ -32,7 +49,7 @@ router.post('/register', async (req, res) => {
             const userExists = localStore.findUserByEmail(email);
             if (userExists) return res.status(400).json({ message: 'User already exists' });
 
-            const user = await localStore.createUser({ name, email, password, phone, role });
+            const user = await localStore.createUser({ name: name.trim(), email: email.toLowerCase().trim(), password, phone: cleanPhone, role });
             const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '30d' });
 
             return res.status(201).json({ _id: user._id, name: user.name, email: user.email, role: user.role, token });

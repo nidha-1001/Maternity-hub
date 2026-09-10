@@ -40,12 +40,32 @@ async function seedDefaultCenters() {
         if (seedsToInsert.length === 0) return; // all defaults already present
 
         // Insert without triggering pre-save hook (passwords already hashed)
-        await MaternityCenter.collection.insertMany(seedsToInsert.map(c => ({
-            ...c,
-            createdAt: new Date(),
-            updatedAt: new Date()
-        })));
-        console.log('✓ Default maternity centers seeded/updated into MongoDB');
+        if (seedsToInsert.length > 0) {
+            await MaternityCenter.collection.insertMany(seedsToInsert.map(c => ({
+                ...c,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            })));
+            console.log('✓ Default maternity centers seeded/updated into MongoDB');
+        }
+
+        // Auto-seed services for any center that currently has 0 services
+        const Service = require('./models/Service');
+        const allCenters = await MaternityCenter.find({});
+        for (const center of allCenters) {
+            const serviceCount = await Service.countDocuments({ center: center._id });
+            if (serviceCount === 0) {
+                const defaultServices = [
+                    { center: center._id, serviceName: 'Comprehensive Prenatal Consultation', description: 'Full trimester obstetric evaluation, fetal heartbeat check, and personalized birth plan.', price: 3000, duration: '60 mins', availability: true },
+                    { center: center._id, serviceName: 'Postnatal Lactation & Newborn Nursing', description: 'Certified lactation nurse consultation, infant attachment guidance, and feeding support.', price: 3500, duration: '60 mins', availability: true },
+                    { center: center._id, serviceName: 'Postpartum Recovery & Wellness Care', description: 'Physical recovery assessment, pelvic floor guidance, and maternal mental wellness check.', price: 5000, duration: '90 mins', availability: true },
+                    { center: center._id, serviceName: 'Fetal Ultrasound & Anatomy Scan', description: 'High-resolution ultrasound imaging, organ development scan, and obstetric report.', price: 2500, duration: '45 mins', availability: true },
+                    { center: center._id, serviceName: 'Luxury Birthing Suite & Delivery', description: 'Private birthing suite, continuous midwife and OB/GYN standby, post-delivery recovery.', price: 45000, duration: '24 Hours Care', availability: true }
+                ];
+                await Service.insertMany(defaultServices);
+                console.log(`✓ Seeded default services for: ${center.centerName}`);
+            }
+        }
     } catch (err) {
         console.log('Seed error (non-fatal):', err.message);
     }

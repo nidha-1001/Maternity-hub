@@ -8,6 +8,8 @@ import CenterList from "../pages/CenterList";
 import CenterDetails from "../pages/CenterDetails";
 import AdminDashboard from "../pages/AdminDashboard";
 
+import MyAppointments from "../pages/MyAppointments";
+
 const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { user, loading } = useContext(AuthContext);
 
@@ -26,6 +28,7 @@ export const AppRoutes = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/centers" element={<CenterList />} />
       <Route path="/centers/:id" element={<CenterDetails />} />
+      <Route path="/my-appointments" element={<ProtectedRoute><MyAppointments /></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>

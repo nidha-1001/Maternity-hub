@@ -405,7 +405,46 @@ class LocalStore {
 
     // Bookings
     getAllBookings() {
-        return [...this.data.bookings].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        return [...this.data.bookings].sort((a, b) => new Date(b.createdAt || b.bookingDate) - new Date(a.createdAt || a.bookingDate));
+    }
+
+    createBooking(bookingData) {
+        const id = generateId();
+        const newBooking = {
+            _id: id,
+            user: bookingData.user,
+            center: bookingData.center,
+            service: bookingData.service,
+            bookingDate: bookingData.bookingDate,
+            bookingStatus: bookingData.bookingStatus || 'Pending',
+            patientPhone: bookingData.patientPhone || '',
+            notes: bookingData.notes || '',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        this.data.bookings.push(newBooking);
+        this.save();
+        return newBooking;
+    }
+
+    updateBookingStatus(id, status) {
+        const booking = this.data.bookings.find(b => b._id === id || String(b._id) === String(id));
+        if (booking) {
+            booking.bookingStatus = status;
+            booking.updatedAt = new Date().toISOString();
+            this.save();
+        }
+        return booking;
+    }
+
+    deleteBooking(id) {
+        const index = this.data.bookings.findIndex(b => b._id === id || String(b._id) === String(id));
+        if (index !== -1) {
+            this.data.bookings.splice(index, 1);
+            this.save();
+            return true;
+        }
+        return false;
     }
 }
 

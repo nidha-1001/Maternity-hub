@@ -9,6 +9,11 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("centers");
   const [actionLoading, setActionLoading] = useState(null);
+  const [bookingActionLoading, setBookingActionLoading] = useState(null);
+
+  // Booking filtering & search
+  const [bookingStatusFilter, setBookingStatusFilter] = useState("All");
+  const [bookingSearch, setBookingSearch] = useState("");
 
   // Add Center Form State
   const [showAddModal, setShowAddModal] = useState(false);
@@ -31,26 +36,25 @@ const AdminDashboard = () => {
   }, []);
 
   const fetchAdminData = async () => {
-  setLoading(true);
-  try {
-    const [centersRes, bookingsRes] = await Promise.all([
-      api.get("/centers/admin/all"),
-      api.get("/bookings/all")
-    ]);
-    console.log('Admin data fetched', { centersCount: centersRes.data?.length, bookingsCount: bookingsRes.data?.length });
-    setCenters(centersRes.data || []);
-    const normalizedBookings = (bookingsRes.data || []).map(b => ({
-      ...b,
-      status: b.bookingStatus || b.status,
-      bookingStatus: b.bookingStatus || b.status
-    }));
-    setBookings(normalizedBookings);
-  } catch (error) {
-    console.error("Error fetching admin data:", error);
-  } finally {
-    setLoading(false);
-  }
-};
+    setLoading(true);
+    try {
+      const [centersRes, bookingsRes] = await Promise.all([
+        api.get("/centers/admin/all"),
+        api.get("/bookings/all")
+      ]);
+      setCenters(centersRes.data || []);
+      const normalizedBookings = (bookingsRes.data || []).map(b => ({
+        ...b,
+        status: b.bookingStatus || b.status,
+        bookingStatus: b.bookingStatus || b.status
+      }));
+      setBookings(normalizedBookings);
+    } catch (error) {
+      console.error("Failed to fetch admin data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -60,10 +64,17 @@ const AdminDashboard = () => {
   const handleAddCenterSubmit = async (e) => {
     e.preventDefault();
     setFormError("");
+
+    const digitsOnly = String(formData.phone).replace(/\D/g, '');
+    if (digitsOnly.length !== 10) {
+      setFormError("Phone number must be exactly 10 digits");
+      return;
+    }
+
     setSubmittingCenter(true);
 
     try {
-      const res = await api.post("/centers", formData);
+      const res = await api.post("/centers", { ...formData, phone: digitsOnly });
       const newCenter = res.data.center || res.data;
       setCenters([newCenter, ...centers]);
       setShowAddModal(false);
@@ -83,6 +94,18 @@ const AdminDashboard = () => {
       setFormError(error.response?.data?.message || "Failed to add maternity center");
     } finally {
       setSubmittingCenter(false);
+    }
+  };
+
+  const handleBookingStatusUpdate = async (bookingId, newStatus) => {
+    setBookingActionLoading(bookingId);
+    try {
+      await api.put(`/bookings/${bookingId}/status`, { status: newStatus });
+      setBookings(prev => prev.map(b => b._id === bookingId ? { ...b, bookingStatus: newStatus, status: newStatus } : b));
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to update booking status");
+    } finally {
+      setBookingActionLoading(null);
     }
   };
 
@@ -284,45 +307,160 @@ const AdminDashboard = () => {
           </div>
         ) : (
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <div className="p-6 border-b border-slate-100">
-              <h2 className="text-xl font-bold text-slate-900">All Platform Appointments</h2>
+            <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">All Platform Appointments</h2>
+                <p className="text-slate-500 text-xs mt-0.5">Manage and track bookings across all maternity centers</p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <input
+                  type="text"
+                  placeholder="Search patient, center, or service..."
+                  value={bookingSearch}
+                  onChange={(e) => setBookingSearch(e.target.value)}
+                  className="px-3.5 py-2 text-xs border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 w-full sm:w-64"
+                />
+
+                <div className="flex bg-slate-100 p-1 rounded-xl gap-1 text-xs">
+                  {["All", "Pending", "Accepted", "Rejected", "Completed"].map((st) => (
+                    <button
+                      key={st}
+                      onClick={() => setBookingStatusFilter(st)}
+                      className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${bookingStatusFilter === st ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
+                    >
+                      {st}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
+
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-50 text-slate-500 text-xs font-semibold uppercase tracking-wider">
                     <th className="py-4 px-6">Patient</th>
-                    <th className="py-4 px-6">Center & Service</th>
-                    <th className="py-4 px-6">Date</th>
-                    <th className="py-4 px-6">Price</th>
+                    <th className="py-4 px-6">Center &amp; Service</th>
+                    <th className="py-4 px-6">Appointment Date</th>
+                    <th className="py-4 px-6">Fee</th>
                     <th className="py-4 px-6">Status</th>
+                    <th className="py-4 px-6 text-right">Update Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-sm">
-                  {bookings.length === 0 ? (
+                  {bookings.filter(b => {
+                    const statusVal = b.bookingStatus || b.status;
+                    const matchesStatus = bookingStatusFilter === "All" || statusVal === bookingStatusFilter;
+                    const s = bookingSearch.toLowerCase();
+                    const matchesSearch = !bookingSearch ||
+                      (b.user?.name || "").toLowerCase().includes(s) ||
+                      (b.center?.centerName || "").toLowerCase().includes(s) ||
+                      (b.service?.serviceName || "").toLowerCase().includes(s) ||
+                      (b.patientPhone || "").includes(s);
+                    return matchesStatus && matchesSearch;
+                  }).length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="py-16 text-center text-slate-400">
+                      <td colSpan={6} className="py-16 text-center text-slate-400">
                         <Calendar className="w-10 h-10 mx-auto mb-3 opacity-30" />
-                        <div className="font-medium">No bookings yet</div>
-                        <div className="text-xs mt-1">Bookings made by patients will appear here</div>
+                        <div className="font-medium">No appointments found</div>
+                        <div className="text-xs mt-1">Bookings matching your filter will appear here</div>
                       </td>
                     </tr>
                   ) : (
-                    bookings.map((b) => (
-                      <tr key={b._id} className="hover:bg-slate-50/60">
-                        <td className="py-4 px-6 font-bold text-slate-900">{b.user?.name || "Patient"}</td>
+                    bookings.filter(b => {
+                      const statusVal = b.bookingStatus || b.status;
+                      const matchesStatus = bookingStatusFilter === "All" || statusVal === bookingStatusFilter;
+                      const s = bookingSearch.toLowerCase();
+                      const matchesSearch = !bookingSearch ||
+                        (b.user?.name || "").toLowerCase().includes(s) ||
+                        (b.center?.centerName || "").toLowerCase().includes(s) ||
+                        (b.service?.serviceName || "").toLowerCase().includes(s) ||
+                        (b.patientPhone || "").includes(s);
+                      return matchesStatus && matchesSearch;
+                    }).map((b) => (
+                      <tr key={b._id} className="hover:bg-slate-50/60 transition-colors">
                         <td className="py-4 px-6">
-                          <div className="font-semibold text-slate-900">{b.center?.centerName}</div>
-                          <div className="text-xs text-slate-500">{b.service?.serviceName}</div>
+                          <div className="font-bold text-slate-900">{b.user?.name || "Patient"}</div>
+                          <div className="text-xs text-slate-500">{b.user?.email}</div>
+                          {(b.patientPhone || b.user?.phone) && (
+                            <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded mt-1">
+                              <Phone className="w-3 h-3 text-primary-500" /> +91 {b.patientPhone || b.user?.phone}
+                            </div>
+                          )}
                         </td>
-                        <td className="py-4 px-6 text-slate-600">
-                          {b.bookingDate ? new Date(b.bookingDate).toLocaleDateString() : "—"}
+                        <td className="py-4 px-6">
+                          <div className="font-bold text-slate-900">{b.center?.centerName}</div>
+                          <div className="text-xs font-semibold text-primary-600">{b.service?.serviceName}</div>
+                          {b.center?.location && (
+                            <div className="text-[11px] text-slate-400 flex items-center mt-0.5">
+                              <MapPin className="w-3 h-3 mr-0.5" /> {b.center?.location}
+                            </div>
+                          )}
+                          {b.notes && (
+                            <div className="text-xs text-slate-500 italic mt-1 bg-amber-50/70 p-1.5 rounded border border-amber-100">
+                              "{b.notes}"
+                            </div>
+                          )}
+                        </td>
+                        <td className="py-4 px-6 text-slate-600 text-xs">
+                          {b.bookingDate ? (
+                            <div>
+                              <div className="font-semibold text-slate-800">{new Date(b.bookingDate).toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</div>
+                              <div className="text-slate-400">{new Date(b.bookingDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                            </div>
+                          ) : "—"}
                         </td>
                         <td className="py-4 px-6 font-bold text-slate-900">
                           ₹{Number(b.service?.price || 0).toLocaleString('en-IN')}
                         </td>
                         <td className="py-4 px-6">
                           <StatusBadge status={b.bookingStatus || b.status} />
+                        </td>
+                        <td className="py-4 px-6 text-right">
+                          <div className="inline-flex items-center gap-1.5">
+                            {(b.bookingStatus || b.status) === 'Pending' && (
+                              <>
+                                <button
+                                  onClick={() => handleBookingStatusUpdate(b._id, 'Accepted')}
+                                  disabled={bookingActionLoading === b._id}
+                                  className="px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold rounded-lg border border-emerald-200 transition-colors"
+                                >
+                                  Accept
+                                </button>
+                                <button
+                                  onClick={() => handleBookingStatusUpdate(b._id, 'Rejected')}
+                                  disabled={bookingActionLoading === b._id}
+                                  className="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold rounded-lg border border-rose-200 transition-colors"
+                                >
+                                  Reject
+                                </button>
+                              </>
+                            )}
+
+                            {(b.bookingStatus || b.status) === 'Accepted' && (
+                              <button
+                                onClick={() => handleBookingStatusUpdate(b._id, 'Completed')}
+                                disabled={bookingActionLoading === b._id}
+                                className="px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold rounded-lg border border-blue-200 transition-colors"
+                              >
+                                Complete
+                              </button>
+                            )}
+
+                            {/* Dropdown status changer */}
+                            <select
+                              value={b.bookingStatus || b.status}
+                              onChange={(e) => handleBookingStatusUpdate(b._id, e.target.value)}
+                              disabled={bookingActionLoading === b._id}
+                              className="text-xs bg-slate-100 border border-slate-200 rounded-lg px-2 py-1.5 text-slate-700 font-medium focus:outline-none"
+                            >
+                              <option value="Pending">Pending</option>
+                              <option value="Accepted">Accepted</option>
+                              <option value="Rejected">Rejected</option>
+                              <option value="Completed">Completed</option>
+                            </select>
+                          </div>
                         </td>
                       </tr>
                     ))

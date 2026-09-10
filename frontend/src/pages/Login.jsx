@@ -1,28 +1,31 @@
 import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     setLoading(true);
-    // Since backend might not have any users yet, we will just simulate a login or call the API
     const result = await login(email, password);
     setLoading(false);
     if (result.success) {
       if (result.user?.role === "admin") {
         navigate("/admin");
       } else {
-        navigate("/");
+        const returnPath = location.state?.from || "/";
+        navigate(returnPath, { replace: true });
       }
     } else {
-      alert(result.message);
+      setError(result.message || "Invalid credentials");
     }
   };
 
@@ -31,8 +34,14 @@ const Login = () => {
        <div className="max-w-md w-full bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-sm border border-primary-100">
          <h2 className="text-3xl font-bold text-slate-900 text-center mb-2">Sign in to your account</h2>
          <p className="text-center text-slate-500 mb-8">
-           Or <Link to="/register" className="text-primary-600 hover:text-primary-700 font-medium">create a new account</Link>
+           Or <Link to="/register" state={{ from: location.state?.from }} className="text-primary-600 hover:text-primary-700 font-medium">create a new account</Link>
          </p>
+
+         {error && (
+           <div className="p-3 mb-5 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold rounded-xl">
+             {error}
+           </div>
+         )}
          
          <form onSubmit={handleSubmit} className="space-y-5">
            <div>

@@ -186,6 +186,67 @@ router.put('/:id', protect, async (req, res) => {
     }
 });
 
+// @route   POST /api/centers/:id/reviews
+// @desc    Submit or update patient review for a center
+// @access  Private
+router.post('/:id/reviews', protect, async (req, res) => {
+    try {
+        const { rating, comment } = req.body;
+        const numRating = Number(rating);
+
+        if (!numRating || numRating < 1 || numRating > 5) {
+            return res.status(400).json({ message: 'Rating must be an integer between 1 and 5' });
+        }
+
+        if (!comment || !comment.trim()) {
+            return res.status(400).json({ message: 'Review comment cannot be empty' });
+        }
+
+        if (mongoose.connection.readyState === 1) {
+            const center = await MaternityCenter.findById(req.params.id);
+            if (!center) {
+                return res.status(404).json({ message: 'Maternity center not found' });
+            }
+
+            // Check if user already reviewed
+            let review = await Review.findOne({ user: req.user._id, center: center._id });
+            if (review) {
+                review.rating = numRating;
+                review.comment = comment.trim();
+                await review.save();
+            } else {
+                review = await Review.create({
+                    user: req.user._id,
+                    center: center._id,
+                    rating: numRating,
+                    comment: comment.trim()
+                });
+            }
+
+            // Recalculate average rating
+            const allReviews = await Review.find({ center: center._id });
+            const avgRating = Number((allReviews.reduce((acc, r) => acc + r.rating, 0) / allReviews.length).toFixed(1));
+
+            const populatedReview = await Review.findById(review._id).populate('user', 'name');
+
+            return res.status(201).json({
+                message: 'Review submitted successfully',
+                review: populatedReview,
+                avgRating,
+                reviewsCount: allReviews.length
+            });
+        }
+
+        return res.status(201).json({
+            message: 'Review submitted successfully',
+            review: { user: { name: req.user.name }, rating: numRating, comment: comment.trim(), createdAt: new Date() }
+        });
+    } catch (error) {
+        console.error('Submit review error:', error);
+        res.status(500).json({ message: error.message || 'Error submitting review' });
+    }
+});
+
 // @route   POST /api/centers
 // @desc    Add a new maternity center (Admin only)
 // @access  Private/Admin
@@ -195,6 +256,11 @@ router.post('/', protect, adminOnly, async (req, res) => {
 
         if (!centerName || !ownerName || !email || !phone || !address || !location) {
             return res.status(400).json({ message: 'Center Name, Owner Name, Email, Phone, Address, and Location are required' });
+        }
+
+        const digitsOnly = String(phone).replace(/\D/g, '');
+        if (digitsOnly.length !== 10) {
+            return res.status(400).json({ message: 'Please provide a valid 10-digit phone number' });
         }
 
         const rawPassword = password || 'provider123';
@@ -210,7 +276,7 @@ router.post('/', protect, adminOnly, async (req, res) => {
                 ownerName,
                 email,
                 password: rawPassword,
-                phone,
+                phone: digitsOnly,
                 address,
                 location,
                 description: description || 'Certified maternity care center.',
@@ -223,10 +289,19 @@ router.post('/', protect, adminOnly, async (req, res) => {
                     name: ownerName,
                     email,
                     password: rawPassword,
-                    phone,
+                    phone: digitsOnly,
                     role: 'provider'
                 });
             }
+
+            // Auto-create standard starter services for this center
+            const initialServices = [
+                { center: center._id, serviceName: 'Comprehensive Prenatal Consultation', description: 'Full trimester obstetric evaluation, fetal ultrasound review, and care plan.', price: 3000, duration: '60 mins', availability: true },
+                { center: center._id, serviceName: 'Postnatal Lactation & Newborn Nursing', description: 'Certified nurse consultation, infant attachment guidance, and newborn care.', price: 3500, duration: '60 mins', availability: true },
+                { center: center._id, serviceName: 'Postpartum Recovery & Wellness Care', description: 'Physical recovery assessment, pelvic rehabilitation counseling, and mental wellness.', price: 5000, duration: '90 mins', availability: true },
+                { center: center._id, serviceName: 'Luxury Birthing Suite Experience', description: 'Private birthing room, 24/7 dedicated obstetrician and midwife attendance.', price: 45000, duration: '24 Hours Care', availability: true }
+            ];
+            await Service.insertMany(initialServices);
 
             return res.status(201).json({
                 message: 'Maternity center created successfully',
@@ -245,7 +320,7 @@ router.post('/', protect, adminOnly, async (req, res) => {
             ownerName,
             email,
             password: rawPassword,
-            phone,
+            phone: digitsOnly,
             address,
             location,
             description: description || 'Certified maternity care center.',
@@ -256,7 +331,7 @@ router.post('/', protect, adminOnly, async (req, res) => {
             name: ownerName,
             email,
             password: rawPassword,
-            phone,
+            phone: digitsOnly,
             role: 'provider'
         });
 

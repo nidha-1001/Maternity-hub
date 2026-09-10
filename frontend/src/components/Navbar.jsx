@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { HeartPulse, Menu, User, ShieldAlert } from "lucide-react";
+import { HeartPulse, Menu, User, ShieldAlert, Calendar } from "lucide-react";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
@@ -25,13 +25,21 @@ export const Navbar = () => {
             <div className="flex items-center gap-4 pl-4 border-l border-slate-200">
               {user ? (
                 <div className="flex items-center gap-4">
-                  {user.role === 'admin' && (
+                  {user.role === 'admin' ? (
                     <Link
                       to="/admin"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary-50 text-primary-700 font-bold text-xs border border-primary-200 hover:bg-primary-100 transition-all shadow-sm"
                     >
                       <ShieldAlert className="w-4 h-4 text-primary-500" />
                       Control Center
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/my-appointments"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary-50 text-primary-700 font-bold text-xs border border-primary-200 hover:bg-primary-100 transition-all shadow-sm"
+                    >
+                      <Calendar className="w-4 h-4 text-primary-500" />
+                      My Appointments
                     </Link>
                   )}
                   <div className="flex items-center gap-2 text-slate-700 font-medium text-sm">
@@ -65,7 +73,7 @@ export const Navbar = () => {
               <hr className="border-slate-100" />
               {user ? (
                 <>
-                  {user.role === 'admin' && (
+                  {user.role === 'admin' ? (
                     <Link
                       to="/admin"
                       onClick={() => setIsMobileMenuOpen(false)}
@@ -73,6 +81,15 @@ export const Navbar = () => {
                     >
                       <ShieldAlert className="w-4 h-4 text-primary-500" />
                       Admin Control Center
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/my-appointments"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl bg-primary-50 text-primary-700 font-bold text-sm border border-primary-200"
+                    >
+                      <Calendar className="w-4 h-4 text-primary-500" />
+                      My Appointments
                     </Link>
                   )}
                   <div className="text-slate-700 font-medium flex items-center gap-2">
