@@ -7,7 +7,7 @@ import Register from "../pages/Register";
 import CenterList from "../pages/CenterList";
 import CenterDetails from "../pages/CenterDetails";
 import AdminDashboard from "../pages/AdminDashboard";
-
+import HomeNurseList from "../pages/HomeNurseList";
 import MyAppointments from "../pages/MyAppointments";
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
@@ -28,6 +28,7 @@ export const AppRoutes = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/centers" element={<CenterList />} />
       <Route path="/centers/:id" element={<CenterDetails />} />
+      <Route path="/home-nurses" element={<HomeNurseList />} />
       <Route path="/my-appointments" element={<ProtectedRoute><MyAppointments /></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" />} />

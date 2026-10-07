@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Search, Building, Baby, Users, HeartPulse, ArrowRight, ShieldAlert, MapPin, Star } from "lucide-react";
+import { Search, Building, Baby, Users, HeartPulse, ArrowRight, ShieldAlert, MapPin, Star, Stethoscope, ShieldCheck } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { api } from "../services/api";
@@ -197,6 +197,58 @@ const Home = () => {
                 </div>
               ))
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* Home Nurse Banner Section */}
+      <section className="py-16 bg-gradient-to-r from-secondary-600 via-primary-600 to-primary-700 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/3 translate-y-1/3" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="text-white">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm font-semibold mb-5 border border-white/30">
+                <ShieldCheck className="w-4 h-4" /> All nurses are verified & licensed
+              </div>
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-4 leading-tight">
+                Professional Home Nurses<br />
+                <span className="text-yellow-300">At Your Doorstep</span>
+              </h2>
+              <p className="text-white/80 text-lg mb-8">
+                Too tired to travel after delivery? Our certified postpartum nurses, lactation consultants, and newborn care specialists come to you.
+              </p>
+              <div className="flex flex-wrap gap-3 mb-8">
+                {["👶 Newborn Care", "🤱 Lactation Support", "🩹 C-Section Dressing", "🌙 Night Nursing"].map(s => (
+                  <span key={s} className="px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-sm font-semibold border border-white/25">{s}</span>
+                ))}
+              </div>
+              <Link
+                to="/home-nurses"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold rounded-2xl transition-all shadow-xl hover:shadow-2xl active:scale-95"
+              >
+                <Stethoscope className="w-5 h-5" />
+                Find a Home Nurse
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { icon: "🏅", title: "Verified Nurses", desc: "License & background verified professionals" },
+                { icon: "📅", title: "Flexible Shifts", desc: "Hourly visits, day shifts, overnight & live-in" },
+                { icon: "🏠", title: "Home Visits", desc: "Care delivered right at your home address" },
+                { icon: "⭐", title: "Rated 4.8★", desc: "Trusted by thousands of families across India" },
+              ].map(card => (
+                <div key={card.title} className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/20 hover:bg-white/15 transition-all">
+                  <div className="text-3xl mb-2">{card.icon}</div>
+                  <div className="text-white font-bold text-base">{card.title}</div>
+                  <div className="text-white/70 text-xs mt-1">{card.desc}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

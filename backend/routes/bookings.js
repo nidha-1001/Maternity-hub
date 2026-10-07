@@ -27,11 +27,11 @@ router.post('/', protect, async (req, res) => {
             return res.status(400).json({ message: 'Appointment date must be scheduled for a future date & time' });
         }
 
-        // Validate 10-digit phone number if provided or fallback to user phone
+        // Validate 10-digit phone number
         const finalPhone = patientPhone || req.user.phone || '';
-        const digitsOnly = String(finalPhone).replace(/\D/g, '');
-        if (digitsOnly && digitsOnly.slice(-10).length !== 10) {
-            return res.status(400).json({ message: 'Please provide a valid 10-digit phone number' });
+        const cleanPhone = String(finalPhone).replace(/\D/g, '').slice(-10);
+        if (!cleanPhone || cleanPhone.length !== 10) {
+            return res.status(400).json({ message: 'A valid 10-digit contact phone number is required' });
         }
 
         if (mongoose.connection.readyState === 1) {
@@ -52,7 +52,7 @@ router.post('/', protect, async (req, res) => {
                 center: center._id,
                 service: service._id,
                 bookingDate: parsedDate,
-                patientPhone: digitsOnly ? digitsOnly.slice(-10) : '',
+                patientPhone: cleanPhone,
                 notes: notes || '',
                 bookingStatus: 'Pending'
             });
@@ -77,11 +77,11 @@ router.post('/', protect, async (req, res) => {
         const service = localStore.findServiceById ? localStore.findServiceById(serviceId) : { _id: serviceId, serviceName: 'Maternity Service', price: 3000, duration: '60 mins' };
 
         const localBooking = localStore.createBooking({
-            user: { _id: req.user._id, name: req.user.name, email: req.user.email, phone: digitsOnly ? digitsOnly.slice(-10) : '' },
+            user: { _id: req.user._id, name: req.user.name, email: req.user.email, phone: cleanPhone },
             center: { _id: center._id, centerName: center.centerName, address: center.address, location: center.location, phone: center.phone },
             service: service,
             bookingDate: parsedDate.toISOString(),
-            patientPhone: digitsOnly ? digitsOnly.slice(-10) : '',
+            patientPhone: cleanPhone,
             notes: notes || '',
             bookingStatus: 'Pending'
         });

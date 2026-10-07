@@ -1,40 +1,40 @@
 {
   "users": [
     {
-      "_id": "6aa0eac178a5a365c13318dc",
+      "_id": "6ac5e91170f30058b09a7014",
       "name": "Platform Admin",
       "email": "admin@maternityhub.com",
-      "password": "$2b$10$DsaldHnp7osRVc85ngdTtukDQfVEpe7fnpaNCgZWulmiLLVZwclXG",
+      "password": "$2b$10$GaL2gpt.u8RgsYxdMRXcEu05sRmq.yVx84LCMTdIoSXSYmpQEHpJe",
       "phone": "+1 (800) 555-0199",
       "role": "admin",
-      "createdAt": "2026-09-09T05:12:33.118Z"
+      "createdAt": "2026-10-07T06:39:13.775Z"
     },
     {
-      "_id": "6aa0eac1f9dc466a860d372d",
+      "_id": "6ac5e911089d7374e3ae3e74",
       "name": "Dr. Sarah Jenkins",
       "email": "provider@blossom.com",
-      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuomJXJPF1YmthzDCfesh/KfBA3iMrBtS",
+      "password": "$2b$10$GaL2gpt.u8RgsYxdMRXcEuZ0tBtlLw.56vgLkw.CdMRRYVKPQaanO",
       "phone": "+1 (415) 555-0192",
       "role": "provider",
-      "createdAt": "2026-09-09T05:12:33.207Z"
+      "createdAt": "2026-10-07T06:39:13.886Z"
     },
     {
-      "_id": "6aa0eac1c002e509c872b7c1",
+      "_id": "6ac5e9116557b743ad0e6dc9",
       "name": "Emily Watson",
       "email": "patient@gmail.com",
-      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuyA9oWFwl0wOU/xhm4UqBhJr3uDzd0FO",
+      "password": "$2b$10$GaL2gpt.u8RgsYxdMRXcEuI3Ve02QSUEATsK2OV3tfBpbrhXAJ6ba",
       "phone": "+1 (555) 234-5678",
       "role": "user",
-      "createdAt": "2026-09-09T05:12:33.284Z"
+      "createdAt": "2026-10-07T06:39:13.981Z"
     }
   ],
   "centers": [
     {
-      "_id": "6aa0eac1e70b19c68ac3f230",
+      "_id": "6ac5e91145cfc4da5db41d3c",
       "centerName": "Blossom Maternity Center",
       "ownerName": "Dr. Sarah Jenkins",
       "email": "provider@blossom.com",
-      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuomJXJPF1YmthzDCfesh/KfBA3iMrBtS",
+      "password": "$2b$10$GaL2gpt.u8RgsYxdMRXcEuZ0tBtlLw.56vgLkw.CdMRRYVKPQaanO",
       "phone": "+1 (415) 555-0192",
       "address": "450 Healthcare Ave, Suite 200",
       "location": "San Francisco, CA",
@@ -42,14 +42,14 @@
       "status": "Approved",
       "rating": 4.9,
       "reviewsCount": 12,
-      "createdAt": "2026-09-02T05:12:33.360Z"
+      "createdAt": "2026-09-30T06:39:14.080Z"
     },
     {
-      "_id": "6aa0eac10203b525371e6716",
+      "_id": "6ac5e9114156834ccedf5931",
       "centerName": "St. Jude Postnatal Care",
       "ownerName": "Dr. Robert Vance",
       "email": "care@stjude-infant.care",
-      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuLpwjHVZVpovy4brd2XD70QRTH/A4HIu",
+      "password": "$2b$10$GaL2gpt.u8RgsYxdMRXcEuJk6rgZLP1mH66/HgIKtj2oKoDuGurey",
       "phone": "+1 (312) 555-0921",
       "address": "1200 Hope Blvd",
       "location": "Chicago, IL",
@@ -57,14 +57,14 @@
       "status": "Approved",
       "rating": 4.8,
       "reviewsCount": 8,
-      "createdAt": "2026-09-03T05:12:33.434Z"
+      "createdAt": "2026-10-01T06:39:14.177Z"
     },
     {
-      "_id": "6aa0eac153c872e6e2f9313b",
+      "_id": "6ac5e9113c2d954d917bb367",
       "centerName": "Serenity Maternity Center",
       "ownerName": "Elena Rostova",
       "email": "hello@serenityhaven.com",
-      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuLpwjHVZVpovy4brd2XD70QRTH/A4HIu",
+      "password": "$2b$10$GaL2gpt.u8RgsYxdMRXcEuJk6rgZLP1mH66/HgIKtj2oKoDuGurey",
       "phone": "+1 (512) 555-7732",
       "address": "44 Wellness Way",
       "location": "Austin, TX",
@@ -72,14 +72,14 @@
       "status": "Approved",
       "rating": 5,
       "reviewsCount": 15,
-      "createdAt": "2026-09-04T05:12:33.508Z"
+      "createdAt": "2026-10-02T06:39:14.290Z"
     },
     {
-      "_id": "6aa0eac11917dc3aea20d96b",
+      "_id": "6ac5e9114420f28e1643fb0d",
       "centerName": "Grace Postnatal Care",
       "ownerName": "Dr. Michael Chen",
       "email": "info@gracefamily.nyc",
-      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuLpwjHVZVpovy4brd2XD70QRTH/A4HIu",
+      "password": "$2b$10$GaL2gpt.u8RgsYxdMRXcEuJk6rgZLP1mH66/HgIKtj2oKoDuGurey",
       "phone": "+1 (212) 555-8891",
       "address": "888 Madison Ave",
       "location": "New York, NY",
@@ -87,14 +87,14 @@
       "status": "Approved",
       "rating": 4.7,
       "reviewsCount": 9,
-      "createdAt": "2026-09-05T05:12:33.584Z"
+      "createdAt": "2026-10-03T06:39:14.391Z"
     },
     {
-      "_id": "6aa0eac16147ff0afcf0672d",
+      "_id": "6ac5e91163abdd189bc86c80",
       "centerName": "Lumina Maternity Center",
       "ownerName": "Sophia Martinez",
       "email": "contact@luminawomens.com",
-      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuLpwjHVZVpovy4brd2XD70QRTH/A4HIu",
+      "password": "$2b$10$GaL2gpt.u8RgsYxdMRXcEuJk6rgZLP1mH66/HgIKtj2oKoDuGurey",
       "phone": "+1 (310) 555-1200",
       "address": "7700 Sunset Blvd",
       "location": "Los Angeles, CA",
@@ -102,14 +102,14 @@
       "status": "Approved",
       "rating": 4.9,
       "reviewsCount": 11,
-      "createdAt": "2026-09-06T05:12:33.659Z"
+      "createdAt": "2026-10-04T06:39:14.489Z"
     },
     {
-      "_id": "6aa0eac1883e62b4954d51aa",
+      "_id": "6ac5e9115971b1bdef61d309",
       "centerName": "Nurture Postnatal Care",
       "ownerName": "Rachel Green",
       "email": "hello@nurturecare.com",
-      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuLpwjHVZVpovy4brd2XD70QRTH/A4HIu",
+      "password": "$2b$10$GaL2gpt.u8RgsYxdMRXcEuJk6rgZLP1mH66/HgIKtj2oKoDuGurey",
       "phone": "+1 (206) 555-4309",
       "address": "204 Pine St",
       "location": "Seattle, WA",
@@ -117,14 +117,14 @@
       "status": "Approved",
       "rating": 4.8,
       "reviewsCount": 6,
-      "createdAt": "2026-09-07T05:12:33.731Z"
+      "createdAt": "2026-10-05T06:39:14.584Z"
     },
     {
-      "_id": "6aa0eac1829325a2d2044200",
+      "_id": "6ac5e9117acdc47cf8c7432d",
       "centerName": "Hope Haven Birthing Suites",
       "ownerName": "Dr. James Wilson",
       "email": "contact@hopehaven.org",
-      "password": "$2b$10$DsaldHnp7osRVc85ngdTtuLpwjHVZVpovy4brd2XD70QRTH/A4HIu",
+      "password": "$2b$10$GaL2gpt.u8RgsYxdMRXcEuJk6rgZLP1mH66/HgIKtj2oKoDuGurey",
       "phone": "+1 (404) 555-3321",
       "address": "500 Peachtree St",
       "location": "Atlanta, GA",
@@ -132,13 +132,13 @@
       "status": "Pending",
       "rating": 4.8,
       "reviewsCount": 0,
-      "createdAt": "2026-09-09T05:12:33.808Z"
+      "createdAt": "2026-10-07T06:39:14.682Z"
     }
   ],
   "services": [
     {
-      "_id": "6aa0eac12bc9f11a512081bb",
-      "center": "6aa0eac1e70b19c68ac3f230",
+      "_id": "6ac5e9127be337236638df38",
+      "center": "6ac5e91145cfc4da5db41d3c",
       "serviceName": "Postnatal Lactation & Newborn Nursing",
       "description": "Certified lactation nurse consultation, infant attachment guidance.",
       "price": 3500,
@@ -146,8 +146,8 @@
       "availability": true
     },
     {
-      "_id": "6aa0eac132cf6b4e3cd697eb",
-      "center": "6aa0eac1e70b19c68ac3f230",
+      "_id": "6ac5e9121526730afa8bafbc",
+      "center": "6ac5e91145cfc4da5db41d3c",
       "serviceName": "Postpartum Recovery & Wellness Care",
       "description": "Physical recovery assistance, mental wellness check, and nutrition plan.",
       "price": 5000,
@@ -155,8 +155,8 @@
       "availability": true
     },
     {
-      "_id": "6aa0eac1a890b61c9e630411",
-      "center": "6aa0eac1e70b19c68ac3f230",
+      "_id": "6ac5e91257a3685273bcf952",
+      "center": "6ac5e91145cfc4da5db41d3c",
       "serviceName": "Prenatal Health & Sonography Package",
       "description": "Full fetal anatomy scan, maternal health assessment, and ultrasound recording.",
       "price": 2500,
@@ -164,8 +164,8 @@
       "availability": true
     },
     {
-      "_id": "6aa0eac1a7e47bda94197a11",
-      "center": "6aa0eac1e70b19c68ac3f230",
+      "_id": "6ac5e912725e5842e744b519",
+      "center": "6ac5e91145cfc4da5db41d3c",
       "serviceName": "Luxury Water Birth Delivery Suite",
       "description": "Private birthing tub, personal midwife, obstetrician on standby, and care kit.",
       "price": 45000,
@@ -175,10 +175,10 @@
   ],
   "reviews": [
     {
-      "_id": "6aa0eac1a563b3df2188ccb3",
-      "center": "6aa0eac1e70b19c68ac3f230",
+      "_id": "6ac5e9126ac25effbabec283",
+      "center": "6ac5e91145cfc4da5db41d3c",
       "user": {
-        "_id": "6aa0eac1c002e509c872b7c1",
+        "_id": "6ac5e9116557b743ad0e6dc9",
         "name": "Emily Watson"
       },
       "rating": 5,
@@ -187,15 +187,15 @@
   ],
   "bookings": [
     {
-      "_id": "6aa0eac1026cfd7237d2b017",
+      "_id": "6ac5e9122c625d096d197bd1",
       "user": {
-        "_id": "6aa0eac1c002e509c872b7c1",
+        "_id": "6ac5e9116557b743ad0e6dc9",
         "name": "Emily Watson",
         "email": "patient@gmail.com",
         "phone": "+1 (555) 234-5678"
       },
       "center": {
-        "_id": "6aa0eac1e70b19c68ac3f230",
+        "_id": "6ac5e91145cfc4da5db41d3c",
         "centerName": "Blossom Maternity Center",
         "address": "450 Healthcare Ave, Suite 200",
         "location": "San Francisco, CA"
@@ -205,9 +205,176 @@
         "price": 3500,
         "duration": "60 mins"
       },
-      "bookingDate": "2026-09-12T05:12:33.808Z",
+      "bookingDate": "2026-10-10T06:39:14.682Z",
       "bookingStatus": "Accepted",
-      "createdAt": "2026-09-09T05:12:33.808Z"
+      "createdAt": "2026-10-07T06:39:14.682Z"
     }
-  ]
+  ],
+  "nurses": [
+    {
+      "_id": "6ac5e912aa082f65cfad720b",
+      "name": "Priya Menon",
+      "email": "priya.menon@nurse.com",
+      "phone": "9876543210",
+      "qualification": "B.Sc Nursing, Certified IBCLC Lactation Consultant",
+      "licenseNumber": "RN-KL-2019-004521",
+      "experienceYears": 7,
+      "specializations": [
+        "Lactation Support",
+        "Newborn Care",
+        "Postpartum Recovery"
+      ],
+      "serviceLocations": [
+        "Kochi",
+        "Thrissur",
+        "Ernakulam"
+      ],
+      "hourlyRate": 800,
+      "dailyRate": 5500,
+      "shiftTypes": [
+        "Hourly Visit (2-4 hrs)",
+        "Day Shift (8 hrs)",
+        "Night Shift (10 PM - 6 AM)"
+      ],
+      "bio": "Experienced IBCLC certified lactation consultant with 7 years of hands-on postnatal and newborn care in top Kerala hospitals.",
+      "verificationStatus": "Approved",
+      "rating": 4.9,
+      "totalReviews": 34,
+      "isAvailable": true,
+      "createdAt": "2026-10-07T06:39:14.682Z"
+    },
+    {
+      "_id": "6ac5e912776a8f4684a7d695",
+      "name": "Anjali Sharma",
+      "email": "anjali.sharma@nurse.com",
+      "phone": "9812345678",
+      "qualification": "M.Sc Nursing, Neonatal Intensive Care Specialist",
+      "licenseNumber": "RN-DL-2017-008832",
+      "experienceYears": 10,
+      "specializations": [
+        "Neonatal Care",
+        "C-Section Dressing",
+        "Postpartum Recovery",
+        "Twin Care"
+      ],
+      "serviceLocations": [
+        "Delhi",
+        "Gurgaon",
+        "Noida",
+        "Faridabad"
+      ],
+      "hourlyRate": 1200,
+      "dailyRate": 8000,
+      "shiftTypes": [
+        "Day Shift (8 hrs)",
+        "Night Shift (10 PM - 6 AM)",
+        "24-hr Live-in"
+      ],
+      "bio": "Highly trained neonatal nurse with a decade of NICU experience at AIIMS Delhi. Expert in C-section wound dressing and premature baby care.",
+      "verificationStatus": "Approved",
+      "rating": 5,
+      "totalReviews": 52,
+      "isAvailable": true,
+      "createdAt": "2026-10-07T06:39:14.682Z"
+    },
+    {
+      "_id": "6ac5e9125b27d66508f49baf",
+      "name": "Kavitha Rajan",
+      "email": "kavitha.rajan@nurse.com",
+      "phone": "9765432100",
+      "qualification": "GNM, Certified Midwife, Postpartum Doula",
+      "licenseNumber": "RN-TN-2020-003119",
+      "experienceYears": 5,
+      "specializations": [
+        "Newborn Care",
+        "Lactation Support",
+        "Night Care"
+      ],
+      "serviceLocations": [
+        "Chennai",
+        "Coimbatore",
+        "Madurai"
+      ],
+      "hourlyRate": 700,
+      "dailyRate": 4800,
+      "shiftTypes": [
+        "Hourly Visit (2-4 hrs)",
+        "Night Shift (10 PM - 6 AM)",
+        "Day Shift (8 hrs)"
+      ],
+      "bio": "Compassionate certified midwife and postpartum doula based in Chennai. Specializes in gentle newborn care and night nursing.",
+      "verificationStatus": "Approved",
+      "rating": 4.8,
+      "totalReviews": 21,
+      "isAvailable": true,
+      "createdAt": "2026-10-07T06:39:14.682Z"
+    },
+    {
+      "_id": "6ac5e91251ee046c11db12e6",
+      "name": "Rekha Pillai",
+      "email": "rekha.pillai@nurse.com",
+      "phone": "9123456780",
+      "qualification": "M.Sc Nursing, Twin & Multiple Birth Specialist",
+      "licenseNumber": "RN-KA-2016-001234",
+      "experienceYears": 12,
+      "specializations": [
+        "Twin Care",
+        "Neonatal Care",
+        "Newborn Care",
+        "Night Care"
+      ],
+      "serviceLocations": [
+        "Bengaluru",
+        "Mysuru",
+        "Mangaluru"
+      ],
+      "hourlyRate": 1500,
+      "dailyRate": 9500,
+      "shiftTypes": [
+        "Day Shift (8 hrs)",
+        "Night Shift (10 PM - 6 AM)",
+        "24-hr Live-in"
+      ],
+      "bio": "One of Karnataka's most experienced twin and multiple birth nurses. Trusted by hundreds of families for overnight and live-in care packages.",
+      "verificationStatus": "Approved",
+      "rating": 5,
+      "totalReviews": 67,
+      "isAvailable": true,
+      "createdAt": "2026-10-07T06:39:14.682Z"
+    },
+    {
+      "_id": "6ac5e9124953757cba680f91",
+      "name": "Meera Krishnan",
+      "email": "meera.krishnan@nurse.com",
+      "phone": "9555123456",
+      "qualification": "B.Sc Nursing, Postpartum Mental Wellness Counselor",
+      "licenseNumber": "RN-MH-2018-005567",
+      "experienceYears": 8,
+      "specializations": [
+        "Postpartum Recovery",
+        "Newborn Care",
+        "Night Care"
+      ],
+      "serviceLocations": [
+        "Mumbai",
+        "Pune",
+        "Thane",
+        "Navi Mumbai"
+      ],
+      "hourlyRate": 1000,
+      "dailyRate": 7000,
+      "shiftTypes": [
+        "Day Shift (8 hrs)",
+        "Night Shift (10 PM - 6 AM)",
+        "24-hr Live-in"
+      ],
+      "bio": "Holistic postnatal care nurse and mental wellness counselor based in Mumbai. Focuses on emotional recovery alongside newborn care.",
+      "verificationStatus": "Approved",
+      "rating": 4.9,
+      "totalReviews": 41,
+      "isAvailable": true,
+      "createdAt": "2026-10-07T06:39:14.682Z"
+    }
+  ],
+  "nurseBookings": []
 }

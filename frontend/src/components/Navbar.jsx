@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { HeartPulse, Menu, User, ShieldAlert, Calendar } from "lucide-react";
+import { HeartPulse, Menu, User, ShieldAlert, Calendar, Stethoscope } from "lucide-react";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
@@ -21,6 +21,9 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-slate-600 hover:text-primary-500 font-medium transition-colors">Home</Link>
             <Link to="/centers" className="text-slate-600 hover:text-primary-500 font-medium transition-colors">Centers</Link>
+            <Link to="/home-nurses" className="text-slate-600 hover:text-primary-500 font-medium transition-colors flex items-center gap-1">
+              <Stethoscope className="w-4 h-4" /> Home Nurses
+            </Link>
 
             <div className="flex items-center gap-4 pl-4 border-l border-slate-200">
               {user ? (
@@ -70,6 +73,9 @@ export const Navbar = () => {
             <div className="flex flex-col space-y-4">
               <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 font-medium">Home</Link>
               <Link to="/centers" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 font-medium">Centers</Link>
+              <Link to="/home-nurses" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-600 font-medium flex items-center gap-1.5">
+                <Stethoscope className="w-4 h-4 text-primary-500" /> Home Nurses
+              </Link>
               <hr className="border-slate-100" />
               {user ? (
                 <>

@@ -1,5 +1,4 @@
 import { Navbar } from "./components/Navbar"
-import { Footer } from "./components/Footer"
 import { AppRoutes } from "./routes/AppRoutes"
 
 function App() {
@@ -9,7 +8,6 @@ function App() {
       <main className="flex-grow">
         <AppRoutes />
       </main>
-      <Footer />
     </div>
   )
 }

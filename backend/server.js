@@ -4,7 +4,7 @@ const cors = require('cors');
 const dns = require('dns');
 try {
     dns.setServers(['8.8.8.8', '1.1.1.1']);
-} catch (e) {}
+} catch (e) { }
 require('dotenv').config();
 
 const app = express();
@@ -71,6 +71,100 @@ async function seedDefaultCenters() {
     }
 }
 
+// Seed default nurses into MongoDB
+async function seedDefaultNurses() {
+    try {
+        const HomeNurse = require('./models/HomeNurse');
+        const count = await HomeNurse.countDocuments();
+        if (count > 0) return;
+
+        const nurses = [
+            {
+                name: 'Priya Menon', email: 'priya.menon@nurse.com', phone: '9876543210',
+                qualification: 'B.Sc Nursing, Certified IBCLC Lactation Consultant',
+                licenseNumber: 'RN-KL-2019-004521', experienceYears: 7,
+                specializations: ['Lactation Support', 'Newborn Care', 'Postpartum Recovery'],
+                serviceLocations: ['Kochi', 'Thrissur', 'Ernakulam'],
+                hourlyRate: 800, dailyRate: 5500,
+                shiftTypes: ['Hourly Visit (2-4 hrs)', 'Day Shift (8 hrs)', 'Night Shift (10 PM - 6 AM)'],
+                bio: 'Experienced IBCLC certified lactation consultant with 7 years of hands-on postnatal and newborn care in top Kerala hospitals. Specializes in breastfeeding support, latch correction and newborn weight monitoring.',
+                verificationStatus: 'Approved', rating: 4.9, totalReviews: 34, isAvailable: true
+            },
+            {
+                name: 'Anjali Sharma', email: 'anjali.sharma@nurse.com', phone: '9812345678',
+                qualification: 'M.Sc Nursing, Neonatal Intensive Care Specialist',
+                licenseNumber: 'RN-DL-2017-008832', experienceYears: 10,
+                specializations: ['Neonatal Care', 'C-Section Dressing', 'Postpartum Recovery', 'Twin Care'],
+                serviceLocations: ['Delhi', 'Gurgaon', 'Noida', 'Faridabad'],
+                hourlyRate: 1200, dailyRate: 8000,
+                shiftTypes: ['Day Shift (8 hrs)', 'Night Shift (10 PM - 6 AM)', '24-hr Live-in'],
+                bio: 'Highly trained neonatal nurse with a decade of NICU experience at AIIMS Delhi. Expert in C-section wound dressing, premature baby care, and postpartum recovery protocols.',
+                verificationStatus: 'Approved', rating: 5.0, totalReviews: 52, isAvailable: true
+            },
+            {
+                name: 'Kavitha Rajan', email: 'kavitha.rajan@nurse.com', phone: '9765432100',
+                qualification: 'GNM, Certified Midwife, Postpartum Doula',
+                licenseNumber: 'RN-TN-2020-003119', experienceYears: 5,
+                specializations: ['Newborn Care', 'Lactation Support', 'Night Care'],
+                serviceLocations: ['Chennai', 'Coimbatore', 'Madurai'],
+                hourlyRate: 700, dailyRate: 4800,
+                shiftTypes: ['Hourly Visit (2-4 hrs)', 'Night Shift (10 PM - 6 AM)', 'Day Shift (8 hrs)'],
+                bio: 'Compassionate certified midwife and postpartum doula based in Chennai. Specializes in gentle newborn care, safe infant bathing, umbilical cord care, and night nursing so parents can recover.',
+                verificationStatus: 'Approved', rating: 4.8, totalReviews: 21, isAvailable: true
+            },
+            {
+                name: 'Deepa Nair', email: 'deepa.nair@nurse.com', phone: '9988776655',
+                qualification: 'B.Sc Nursing, Wound Care Certification',
+                licenseNumber: 'RN-KL-2021-007741', experienceYears: 4,
+                specializations: ['C-Section Dressing', 'Postpartum Recovery', 'Newborn Care'],
+                serviceLocations: ['Thiruvananthapuram', 'Kollam', 'Pathanamthitta'],
+                hourlyRate: 650, dailyRate: 4200,
+                shiftTypes: ['Hourly Visit (2-4 hrs)', 'Day Shift (8 hrs)'],
+                bio: 'Skilled wound care nurse specializing in C-section recovery, stitches dressing, and pain management at home. Provides gentle, clinical postpartum care tailored to each patient.',
+                verificationStatus: 'Approved', rating: 4.7, totalReviews: 18, isAvailable: true
+            },
+            {
+                name: 'Rekha Pillai', email: 'rekha.pillai@nurse.com', phone: '9123456780',
+                qualification: 'M.Sc Nursing, Twin & Multiple Birth Specialist',
+                licenseNumber: 'RN-KA-2016-001234', experienceYears: 12,
+                specializations: ['Twin Care', 'Neonatal Care', 'Newborn Care', 'Night Care'],
+                serviceLocations: ['Bengaluru', 'Mysuru', 'Mangaluru'],
+                hourlyRate: 1500, dailyRate: 9500,
+                shiftTypes: ['Day Shift (8 hrs)', 'Night Shift (10 PM - 6 AM)', '24-hr Live-in'],
+                bio: 'One of Karnataka\'s most experienced twin and multiple birth nurses with 12 years of specialized neonatal and postnatal care. Trusted by hundreds of families for overnight and live-in care packages.',
+                verificationStatus: 'Approved', rating: 5.0, totalReviews: 67, isAvailable: true
+            },
+            {
+                name: 'Sunitha George', email: 'sunitha.george@nurse.com', phone: '9900112233',
+                qualification: 'GNM, Certified Lactation Educator',
+                licenseNumber: 'RN-KL-2022-009988', experienceYears: 3,
+                specializations: ['Lactation Support', 'Postpartum Recovery'],
+                serviceLocations: ['Kozhikode', 'Malappuram', 'Palakkad'],
+                hourlyRate: 600, dailyRate: 4000,
+                shiftTypes: ['Hourly Visit (2-4 hrs)', 'Day Shift (8 hrs)'],
+                bio: 'A dedicated lactation educator helping new mothers overcome breastfeeding challenges with patience and evidence-based techniques. Available for home visits in northern Kerala.',
+                verificationStatus: 'Approved', rating: 4.6, totalReviews: 9, isAvailable: true
+            },
+            {
+                name: 'Meera Krishnan', email: 'meera.krishnan@nurse.com', phone: '9555123456',
+                qualification: 'B.Sc Nursing, Postpartum Mental Wellness Counselor',
+                licenseNumber: 'RN-MH-2018-005567', experienceYears: 8,
+                specializations: ['Postpartum Recovery', 'Newborn Care', 'Night Care'],
+                serviceLocations: ['Mumbai', 'Pune', 'Thane', 'Navi Mumbai'],
+                hourlyRate: 1000, dailyRate: 7000,
+                shiftTypes: ['Day Shift (8 hrs)', 'Night Shift (10 PM - 6 AM)', '24-hr Live-in'],
+                bio: 'Holistic postnatal care nurse and mental wellness counselor based in Mumbai. Focuses on mother\'s emotional recovery alongside newborn care, with expertise in postpartum depression screening and support.',
+                verificationStatus: 'Approved', rating: 4.9, totalReviews: 41, isAvailable: true
+            }
+        ];
+
+        await HomeNurse.insertMany(nurses);
+        console.log('✓ Default home nurses seeded into MongoDB');
+    } catch (err) {
+        console.log('Nurse seed error (non-fatal):', err.message);
+    }
+}
+
 // Connect to MongoDB Atlas (runs in background without blocking app)
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/maternityhub';
 mongoose.connect(MONGO_URI, {
@@ -78,6 +172,7 @@ mongoose.connect(MONGO_URI, {
 }).then(async () => {
     console.log('✓ MongoDB Connected Successfully');
     await seedDefaultCenters();
+    await seedDefaultNurses();
 }).catch(err => {
     console.log('Note: MongoDB Atlas is offline or IP not whitelisted. Using active local persistent storage.');
 });
@@ -86,14 +181,16 @@ mongoose.connect(MONGO_URI, {
 const authRoutes = require('./routes/auth');
 const centerRoutes = require('./routes/centers');
 const bookingRoutes = require('./routes/bookings');
+const nurseRoutes = require('./routes/nurses');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/centers', centerRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/nurses', nurseRoutes);
 
 // Basic API health route
 app.get('/api', (req, res) => {
-    res.json({ 
+    res.json({
         message: 'Welcome to Maternity Hub API',
         storage: mongoose.connection.readyState === 1 ? 'MongoDB Atlas' : 'Local Persistent Store'
     });

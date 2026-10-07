@@ -23,7 +23,9 @@ export const BookingModal = ({ center, service, onClose }) => {
   const handlePhoneChange = (e) => {
     const val = e.target.value.replace(/\D/g, '').slice(0, 10);
     setPhone(val);
-    if (val && val.length !== 10) {
+    if (!val) {
+      setPhoneError("Contact phone number is required");
+    } else if (val.length !== 10) {
       setPhoneError("Phone number must be exactly 10 digits");
     } else {
       setPhoneError("");

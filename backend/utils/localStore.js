@@ -227,7 +227,75 @@ const getInitialData = () => {
                 bookingStatus: 'Accepted',
                 createdAt: new Date().toISOString()
             }
-        ]
+        ],
+        nurses: [
+            {
+                _id: generateId(),
+                name: 'Priya Menon', email: 'priya.menon@nurse.com', phone: '9876543210',
+                qualification: 'B.Sc Nursing, Certified IBCLC Lactation Consultant',
+                licenseNumber: 'RN-KL-2019-004521', experienceYears: 7,
+                specializations: ['Lactation Support', 'Newborn Care', 'Postpartum Recovery'],
+                serviceLocations: ['Kochi', 'Thrissur', 'Ernakulam'],
+                hourlyRate: 800, dailyRate: 5500,
+                shiftTypes: ['Hourly Visit (2-4 hrs)', 'Day Shift (8 hrs)', 'Night Shift (10 PM - 6 AM)'],
+                bio: 'Experienced IBCLC certified lactation consultant with 7 years of hands-on postnatal and newborn care in top Kerala hospitals.',
+                verificationStatus: 'Approved', rating: 4.9, totalReviews: 34, isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                _id: generateId(),
+                name: 'Anjali Sharma', email: 'anjali.sharma@nurse.com', phone: '9812345678',
+                qualification: 'M.Sc Nursing, Neonatal Intensive Care Specialist',
+                licenseNumber: 'RN-DL-2017-008832', experienceYears: 10,
+                specializations: ['Neonatal Care', 'C-Section Dressing', 'Postpartum Recovery', 'Twin Care'],
+                serviceLocations: ['Delhi', 'Gurgaon', 'Noida', 'Faridabad'],
+                hourlyRate: 1200, dailyRate: 8000,
+                shiftTypes: ['Day Shift (8 hrs)', 'Night Shift (10 PM - 6 AM)', '24-hr Live-in'],
+                bio: 'Highly trained neonatal nurse with a decade of NICU experience at AIIMS Delhi. Expert in C-section wound dressing and premature baby care.',
+                verificationStatus: 'Approved', rating: 5.0, totalReviews: 52, isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                _id: generateId(),
+                name: 'Kavitha Rajan', email: 'kavitha.rajan@nurse.com', phone: '9765432100',
+                qualification: 'GNM, Certified Midwife, Postpartum Doula',
+                licenseNumber: 'RN-TN-2020-003119', experienceYears: 5,
+                specializations: ['Newborn Care', 'Lactation Support', 'Night Care'],
+                serviceLocations: ['Chennai', 'Coimbatore', 'Madurai'],
+                hourlyRate: 700, dailyRate: 4800,
+                shiftTypes: ['Hourly Visit (2-4 hrs)', 'Night Shift (10 PM - 6 AM)', 'Day Shift (8 hrs)'],
+                bio: 'Compassionate certified midwife and postpartum doula based in Chennai. Specializes in gentle newborn care and night nursing.',
+                verificationStatus: 'Approved', rating: 4.8, totalReviews: 21, isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                _id: generateId(),
+                name: 'Rekha Pillai', email: 'rekha.pillai@nurse.com', phone: '9123456780',
+                qualification: 'M.Sc Nursing, Twin & Multiple Birth Specialist',
+                licenseNumber: 'RN-KA-2016-001234', experienceYears: 12,
+                specializations: ['Twin Care', 'Neonatal Care', 'Newborn Care', 'Night Care'],
+                serviceLocations: ['Bengaluru', 'Mysuru', 'Mangaluru'],
+                hourlyRate: 1500, dailyRate: 9500,
+                shiftTypes: ['Day Shift (8 hrs)', 'Night Shift (10 PM - 6 AM)', '24-hr Live-in'],
+                bio: "One of Karnataka's most experienced twin and multiple birth nurses. Trusted by hundreds of families for overnight and live-in care packages.",
+                verificationStatus: 'Approved', rating: 5.0, totalReviews: 67, isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                _id: generateId(),
+                name: 'Meera Krishnan', email: 'meera.krishnan@nurse.com', phone: '9555123456',
+                qualification: 'B.Sc Nursing, Postpartum Mental Wellness Counselor',
+                licenseNumber: 'RN-MH-2018-005567', experienceYears: 8,
+                specializations: ['Postpartum Recovery', 'Newborn Care', 'Night Care'],
+                serviceLocations: ['Mumbai', 'Pune', 'Thane', 'Navi Mumbai'],
+                hourlyRate: 1000, dailyRate: 7000,
+                shiftTypes: ['Day Shift (8 hrs)', 'Night Shift (10 PM - 6 AM)', '24-hr Live-in'],
+                bio: 'Holistic postnatal care nurse and mental wellness counselor based in Mumbai. Focuses on emotional recovery alongside newborn care.',
+                verificationStatus: 'Approved', rating: 4.9, totalReviews: 41, isAvailable: true,
+                createdAt: new Date().toISOString()
+            }
+        ],
+        nurseBookings: []
     };
 };
 
@@ -441,6 +509,109 @@ class LocalStore {
         const index = this.data.bookings.findIndex(b => b._id === id || String(b._id) === String(id));
         if (index !== -1) {
             this.data.bookings.splice(index, 1);
+            this.save();
+            return true;
+        }
+        return false;
+    }
+
+    // Nurses
+    getAllNurses({ specialization, location, search } = {}) {
+        if (!this.data.nurses) this.data.nurses = [];
+        let results = [...this.data.nurses].filter(n => n.verificationStatus === 'Approved');
+
+        if (specialization && specialization !== 'All') {
+            results = results.filter(n => n.specializations && n.specializations.includes(specialization));
+        }
+
+        if (location && location !== 'All Locations') {
+            const loc = location.toLowerCase();
+            results = results.filter(n => n.serviceLocations && n.serviceLocations.some(l => l.toLowerCase().includes(loc)));
+        }
+
+        if (search) {
+            const s = search.toLowerCase();
+            results = results.filter(n =>
+                (n.name && n.name.toLowerCase().includes(s)) ||
+                (n.bio && n.bio.toLowerCase().includes(s)) ||
+                (n.specializations && n.specializations.some(sp => sp.toLowerCase().includes(s))) ||
+                (n.serviceLocations && n.serviceLocations.some(l => l.toLowerCase().includes(s)))
+            );
+        }
+
+        return results.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    }
+
+    findNurseById(id) {
+        if (!this.data.nurses) return null;
+        return this.data.nurses.find(n => n._id === id || String(n._id) === String(id)) || null;
+    }
+
+    updateNurseStatus(id, status) {
+        if (!this.data.nurses) return null;
+        const nurse = this.data.nurses.find(n => n._id === id || String(n._id) === String(id));
+        if (!nurse) return null;
+        nurse.verificationStatus = status;
+        this.save();
+        return nurse;
+    }
+
+    deleteNurse(id) {
+        if (!this.data.nurses) return false;
+        const index = this.data.nurses.findIndex(n => n._id === id || String(n._id) === String(id));
+        if (index !== -1) {
+            this.data.nurses.splice(index, 1);
+            this.save();
+            return true;
+        }
+        return false;
+    }
+
+    // Nurse Bookings
+    getAllNurseBookings() {
+        if (!this.data.nurseBookings) this.data.nurseBookings = [];
+        return [...this.data.nurseBookings].sort((a, b) => new Date(b.createdAt || b.startDate) - new Date(a.createdAt || a.startDate));
+    }
+
+    createNurseBooking(bookingData) {
+        if (!this.data.nurseBookings) this.data.nurseBookings = [];
+        const id = generateId();
+        const newBooking = {
+            _id: id,
+            user: bookingData.user,
+            nurse: bookingData.nurse,
+            shiftType: bookingData.shiftType,
+            startDate: bookingData.startDate,
+            endDate: bookingData.endDate,
+            homeAddress: bookingData.homeAddress,
+            patientPhone: bookingData.patientPhone || '',
+            deliveryType: bookingData.deliveryType || 'Not Applicable',
+            babyAgeDays: bookingData.babyAgeDays || null,
+            specialRequirements: bookingData.specialRequirements || '',
+            totalAmount: bookingData.totalAmount || 0,
+            bookingStatus: bookingData.bookingStatus || 'Pending',
+            createdAt: new Date().toISOString()
+        };
+        this.data.nurseBookings.push(newBooking);
+        this.save();
+        return newBooking;
+    }
+
+    updateNurseBookingStatus(id, status) {
+        if (!this.data.nurseBookings) return null;
+        const booking = this.data.nurseBookings.find(b => b._id === id || String(b._id) === String(id));
+        if (booking) {
+            booking.bookingStatus = status;
+            this.save();
+        }
+        return booking;
+    }
+
+    deleteNurseBooking(id) {
+        if (!this.data.nurseBookings) return false;
+        const index = this.data.nurseBookings.findIndex(b => b._id === id || String(b._id) === String(id));
+        if (index !== -1) {
+            this.data.nurseBookings.splice(index, 1);
             this.save();
             return true;
         }
