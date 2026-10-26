@@ -144,6 +144,11 @@ router.post('/bookings/create', protect, async (req, res) => {
             return res.status(400).json({ message: 'A valid 10-digit contact phone number is required' });
         }
 
+        const cleanPincode = homeAddress?.pincode ? String(homeAddress.pincode).replace(/\D/g, '') : '';
+        if (cleanPincode && cleanPincode.length !== 6) {
+            return res.status(400).json({ message: 'Pincode must be exactly 6 digits' });
+        }
+
         const parsedStart = new Date(startDate);
         const parsedEnd = new Date(endDate);
 

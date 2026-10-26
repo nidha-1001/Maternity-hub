@@ -21,6 +21,7 @@ const NurseBookingModal = ({ nurse, onClose, onSuccess }) => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const [pincodeError, setPincodeError] = useState("");
   const [success, setSuccess] = useState(false);
 
   const tomorrow = new Date();
@@ -73,6 +74,19 @@ const NurseBookingModal = ({ nurse, onClose, onSuccess }) => {
       setError("");
       return;
     }
+    if (name === "pincode") {
+      const clean = value.replace(/\D/g, "").slice(0, 6);
+      setForm((prev) => ({ ...prev, pincode: clean }));
+      if (!clean) {
+        setPincodeError("Pincode is required");
+      } else if (clean.length !== 6) {
+        setPincodeError("Pincode must be exactly 6 digits");
+      } else {
+        setPincodeError("");
+      }
+      setError("");
+      return;
+    }
     setForm((prev) => ({ ...prev, [name]: value }));
     setError("");
   };
@@ -89,6 +103,17 @@ const NurseBookingModal = ({ nurse, onClose, onSuccess }) => {
   const validateStep2 = () => {
     if (!form.street.trim()) return "Street address is required";
     if (!form.city.trim()) return "City is required";
+    const cleanPin = String(form.pincode).replace(/\D/g, "");
+    if (!cleanPin) {
+      setPincodeError("Pincode is required");
+      return "Pincode is required";
+    }
+    if (cleanPin.length !== 6) {
+      setPincodeError("Pincode must be exactly 6 digits");
+      return "Pincode must be exactly 6 digits";
+    }
+    setPincodeError("");
+
     const phone = String(form.patientPhone).replace(/\D/g, "");
     if (!phone) {
       setPhoneError("Contact phone number is required");
@@ -125,6 +150,13 @@ const NurseBookingModal = ({ nurse, onClose, onSuccess }) => {
       return;
     }
     setError("");
+
+    const cleanPin = String(form.pincode).replace(/\D/g, "");
+    if (!cleanPin || cleanPin.length !== 6) {
+      setPincodeError("Pincode must be exactly 6 digits");
+      setError("Please enter a valid 6-digit pincode");
+      return;
+    }
 
     const phone = String(form.patientPhone).replace(/\D/g, "").slice(-10);
     if (!phone || phone.length !== 10) {
@@ -356,15 +388,26 @@ const NurseBookingModal = ({ nurse, onClose, onSuccess }) => {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Pincode</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Pincode <span className="text-rose-500">*</span>
+                  </label>
                   <input
                     type="text"
+                    inputMode="numeric"
+                    maxLength={6}
                     name="pincode"
                     value={form.pincode}
                     onChange={handleChange}
                     placeholder="e.g. 682001"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                    className={`w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:ring-2 transition-all ${
+                      pincodeError
+                        ? "border-rose-400 focus:ring-rose-500/20 focus:border-rose-500 bg-rose-50/20"
+                        : "border-slate-200 focus:ring-primary-500/20 focus:border-primary-500"
+                    }`}
                   />
+                  {pincodeError && (
+                    <p className="text-[11px] text-rose-500 mt-1 font-medium">{pincodeError}</p>
+                  )}
                 </div>
               </div>
               <div>

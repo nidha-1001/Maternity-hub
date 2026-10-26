@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Building, Check, X, ShieldAlert, Calendar, Loader2, Plus, Trash2, MapPin, Phone, Stethoscope, Star, Home } from "lucide-react";
+import { Building, Check, X, ShieldAlert, Calendar, Loader2, Plus, Trash2, MapPin, Phone, Stethoscope, Star, Home, RefreshCw } from "lucide-react";
 import { StatusBadge } from "../components/StatusBadge";
 import { api } from "../services/api";
 
@@ -9,6 +9,7 @@ const AdminDashboard = () => {
   const [nurses, setNurses] = useState([]);
   const [nurseBookings, setNurseBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState("centers");
   const [actionLoading, setActionLoading] = useState(null);
   const [bookingActionLoading, setBookingActionLoading] = useState(null);
@@ -43,8 +44,8 @@ const AdminDashboard = () => {
     fetchAdminData();
   }, []);
 
-  const fetchAdminData = async () => {
-    setLoading(true);
+  const fetchAdminData = async (isBackground = false) => {
+    if (!isBackground) setLoading(true);
     try {
       const [centersRes, bookingsRes, nursesRes, nurseBookingsRes] = await Promise.all([
         api.get("/centers/admin/all"),
@@ -64,7 +65,8 @@ const AdminDashboard = () => {
     } catch (error) {
       console.error("Failed to fetch admin data:", error);
     } finally {
-      setLoading(false);
+      if (!isBackground) setLoading(false);
+      setRefreshing(false);
     }
   };
 
@@ -178,6 +180,10 @@ const AdminDashboard = () => {
 
   const pendingCenters = centers.filter(c => c.status === "Pending");
   const approvedCenters = centers.filter(c => c.status === "Approved");
+  const pendingNurses = nurses.filter(n => n.verificationStatus === "Pending");
+  const pendingBookings = bookings.filter(b => (b.bookingStatus || b.status) === "Pending");
+  const pendingNurseBookings = nurseBookings.filter(b => b.bookingStatus === "Pending");
+  const totalPending = pendingCenters.length + pendingNurses.length + pendingBookings.length + pendingNurseBookings.length;
 
   const filteredBookings = bookings.filter(b => {
     const statusVal = b.bookingStatus || b.status;
@@ -204,12 +210,23 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-slate-50">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <ShieldAlert className="w-8 h-8 text-primary-500" />
-            <h1 className="text-3xl font-extrabold text-slate-900">Admin Control Center</h1>
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <ShieldAlert className="w-8 h-8 text-primary-500" />
+              <h1 className="text-3xl font-extrabold text-slate-900">Admin Control Center</h1>
+            </div>
+            <p className="text-slate-600">Manage maternity centers, home nurses, and all platform bookings.</p>
           </div>
-          <p className="text-slate-600">Manage maternity centers, home nurses, and all platform bookings.</p>
+          <button
+            onClick={() => { setRefreshing(true); fetchAdminData(true); }}
+            disabled={refreshing || loading}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl shadow-sm transition-all self-start sm:self-auto cursor-pointer disabled:opacity-60"
+            title="Refresh latest data"
+          >
+            <RefreshCw className={`w-4 h-4 text-primary-600 ${refreshing ? "animate-spin" : ""}`} />
+            <span>{refreshing ? "Refreshing..." : "Refresh Data"}</span>
+          </button>
         </div>
 
         {/* Stats Grid */}
@@ -222,13 +239,33 @@ const AdminDashboard = () => {
             <div className="text-2xl font-extrabold text-slate-900">{centers.length}</div>
           </div>
 
-          <div className="bg-amber-50/40 p-5 rounded-2xl border border-amber-200 shadow-sm">
+          <button
+            onClick={() => {
+              if (pendingBookings.length > 0) {
+                setActiveTab("bookings");
+                setBookingStatusFilter("Pending");
+              } else if (pendingNurseBookings.length > 0) {
+                setActiveTab("nursebookings");
+                setNurseBookingStatusFilter("Pending");
+              } else if (pendingCenters.length > 0) {
+                setActiveTab("centers");
+              } else if (pendingNurses.length > 0) {
+                setActiveTab("nurses");
+              }
+            }}
+            className="bg-amber-50/50 p-5 rounded-2xl border border-amber-200 shadow-sm hover:shadow-md hover:border-amber-400 transition-all text-left cursor-pointer group"
+          >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-amber-700">Pending Review</span>
+              <span className="text-xs font-medium text-amber-700 group-hover:text-amber-800">Pending Review</span>
               <ShieldAlert className="w-4 h-4 text-amber-500" />
             </div>
-            <div className="text-2xl font-extrabold text-amber-700">{pendingCenters.length}</div>
-          </div>
+            <div className="text-2xl font-extrabold text-amber-700">{totalPending}</div>
+            <div className="text-[11px] text-amber-600/90 mt-1 font-medium truncate">
+              {totalPending === 0
+                ? "All items reviewed"
+                : `${pendingBookings.length + pendingNurseBookings.length} bookings • ${pendingCenters.length} centers`}
+            </div>
+          </button>
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
             <div className="flex items-center justify-between mb-2">
@@ -262,10 +299,10 @@ const AdminDashboard = () => {
         {/* Tab Navigation */}
         <div className="flex border-b border-slate-200 mb-8 overflow-x-auto">
           {[
-            { id: "centers", label: `Maternity Centers (${centers.length})`, icon: <Building className="w-4 h-4" /> },
-            { id: "nurses", label: `Home Nurses (${nurses.length})`, icon: <Stethoscope className="w-4 h-4" /> },
-            { id: "bookings", label: `Center Bookings (${bookings.length})`, icon: <Calendar className="w-4 h-4" /> },
-            { id: "nursebookings", label: `Nurse Bookings (${nurseBookings.length})`, icon: <Home className="w-4 h-4" /> },
+            { id: "centers", label: "Maternity Centers", count: centers.length, pending: pendingCenters.length, icon: <Building className="w-4 h-4" /> },
+            { id: "nurses", label: "Home Nurses", count: nurses.length, pending: pendingNurses.length, icon: <Stethoscope className="w-4 h-4" /> },
+            { id: "bookings", label: "Center Bookings", count: bookings.length, pending: pendingBookings.length, icon: <Calendar className="w-4 h-4" /> },
+            { id: "nursebookings", label: "Nurse Bookings", count: nurseBookings.length, pending: pendingNurseBookings.length, icon: <Home className="w-4 h-4" /> },
           ].map(tab => (
             <button
               key={tab.id}
@@ -274,7 +311,12 @@ const AdminDashboard = () => {
                 activeTab === tab.id ? "border-primary-500 text-primary-600" : "border-transparent text-slate-500 hover:text-slate-700"
               }`}
             >
-              {tab.icon} {tab.label}
+              {tab.icon} {tab.label} ({tab.count})
+              {tab.pending > 0 && (
+                <span className="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-amber-100 text-amber-700 border border-amber-200">
+                  {tab.pending} pending
+                </span>
+              )}
             </button>
           ))}
         </div>
