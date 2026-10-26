@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 1160" width="100%" height="100%" style="background-color: #ffffff; font-family: Arial, Helvetica, sans-serif;">
+  <defs>
+    <style>
+      .sys-box { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+      .sys-title { font-size: 18px; font-weight: bold; text-anchor: middle; fill: #000000; letter-spacing: 1.5px; }
+      .oval { fill: #ffffff; stroke: #000000; stroke-width: 1.8; rx: 135; ry: 19; }
+      .oval-text { font-size: 13px; font-weight: 500; text-anchor: middle; fill: #000000; dominant-baseline: central; }
+      .actor-line { stroke: #000000; stroke-width: 2.2; stroke-linecap: round; }
+      .actor-head { fill: #ffffff; stroke: #000000; stroke-width: 2.2; }
+      .actor-label { font-size: 13.5px; font-weight: bold; text-anchor: middle; fill: #000000; }
+      .actor-sublabel { font-size: 12px; font-weight: normal; text-anchor: middle; fill: #333333; }
+      .conn-line { stroke: #000000; stroke-width: 1.3; }
+    </style>
+  </defs>
+
+  <!-- ================= SYSTEM BOUNDARY BOX ================= -->
+  <!-- Centered boundary rectangle matching the exact reference model -->
+  <rect x="290" y="30" width="440" height="1100" class="sys-box" />
+  <text x="510" y="65" class="sys-title">MATERNITY HUB SYSTEM</text>
+
+  <!-- ================= VERTICAL STACK OF USE CASES ================= -->
+  <!-- Oval Center: cx = 510, rx = 135. Left apex = 375, Right apex = 645 -->
+
+  <!-- UC 1: cy = 105 -->
+  <ellipse cx="510" cy="105" rx="135" ry="19" class="oval" />
+  <text x="510" y="105" class="oval-text">Register / Patient Login</text>
+
+  <!-- UC 2: cy = 163 -->
+  <ellipse cx="510" cy="163" rx="135" ry="19" class="oval" />
+  <text x="510" y="163" class="oval-text">Manage User Profile</text>
+
+  <!-- UC 3: cy = 221 -->
+  <ellipse cx="510" cy="221" rx="135" ry="19" class="oval" />
+  <text x="510" y="221" class="oval-text">Search Maternity Centers</text>
+
+  <!-- UC 4: cy = 279 -->
+  <ellipse cx="510" cy="279" rx="135" ry="19" class="oval" />
+  <text x="510" y="279" class="oval-text">View Center Services &amp; Pricing</text>
+
+  <!-- UC 5: cy = 337 -->
+  <ellipse cx="510" cy="337" rx="135" ry="19" class="oval" />
+  <text x="510" y="337" class="oval-text">Book Hospital Appointment</text>
+
+  <!-- UC 6: cy = 395 -->
+  <ellipse cx="510" cy="395" rx="135" ry="19" class="oval" />
+  <text x="510" y="395" class="oval-text">Manage Center Profile &amp; Bio</text>
+
+  <!-- UC 7: cy = 453 -->
+  <ellipse cx="510" cy="453" rx="135" ry="19" class="oval" />
+  <text x="510" y="453" class="oval-text">Manage Hospital Bookings</text>
+
+  <!-- UC 8: cy = 511 -->
+  <ellipse cx="510" cy="511" rx="135" ry="19" class="oval" />
+  <text x="510" y="511" class="oval-text">Search Home Nurses</text>
+
+  <!-- UC 9: cy = 569 -->
+  <ellipse cx="510" cy="569" rx="135" ry="19" class="oval" />
+  <text x="510" y="569" class="oval-text">Book Home Nurse Care</text>
+
+  <!-- UC 10: cy = 627 -->
+  <ellipse cx="510" cy="627" rx="135" ry="19" class="oval" />
+  <text x="510" y="627" class="oval-text">Pay Online / Track Booking</text>
+
+  <!-- UC 11: cy = 685 -->
+  <ellipse cx="510" cy="685" rx="135" ry="19" class="oval" />
+  <text x="510" y="685" class="oval-text">Submit Reviews &amp; Ratings</text>
+
+  <!-- UC 12: cy = 743 -->
+  <ellipse cx="510" cy="743" rx="135" ry="19" class="oval" />
+  <text x="510" y="743" class="oval-text">Manage Nurse Shifts &amp; Bio</text>
+
+  <!-- UC 13: cy = 801 -->
+  <ellipse cx="510" cy="801" rx="135" ry="19" class="oval" />
+  <text x="510" y="801" class="oval-text">Manage Nurse Care Bookings</text>
+
+  <!-- UC 14: cy = 859 -->
+  <ellipse cx="510" cy="859" rx="135" ry="19" class="oval" />
+  <text x="510" y="859" class="oval-text">Verify &amp; Approve Providers</text>
+
+  <!-- UC 15: cy = 917 -->
+  <ellipse cx="510" cy="917" rx="135" ry="19" class="oval" />
+  <text x="510" y="917" class="oval-text">Monitor Global Bookings &amp; Users</text>
+
+  <!-- UC 16: cy = 975 -->
+  <ellipse cx="510" cy="975" rx="135" ry="19" class="oval" />
+  <text x="510" y="975" class="oval-text">Filter / Export Reports</text>
+
+  <!-- UC 17: cy = 1033 -->
+  <ellipse cx="510" cy="1033" rx="135" ry="19" class="oval" />
+  <text x="510" y="1033" class="oval-text">System Logout</text>
+
+
+  <!-- ================= STICK FIGURES (ACTORS) ================= -->
+
+  <!-- ACTOR 1 (LEFT): Patient / Expectant Mother -->
+  <!-- Position: Center x = 125, Hand anchor = (155, 410) -->
+  <g id="actor-patient">
+    <circle cx="125" cy="365" r="20" class="actor-head" />
+    <line x1="125" y1="385" x2="125" y2="455" class="actor-line" />
+    <line x1="90" y1="410" x2="160" y2="410" class="actor-line" />
+    <line x1="125" y1="455" x2="95" y2="520" class="actor-line" />
+    <line x1="125" y1="455" x2="155" y2="520" class="actor-line" />
+    <text x="125" y="550" class="actor-label">Patient /</text>
+    <text x="125" y="570" class="actor-label">Expectant Mother</text>
+  </g>
+
+  <!-- ACTOR 2 (RIGHT TOP): Maternity Center -->
+  <!-- Position: Center x = 880, Hand anchor = (850, 366) -->
+  <g id="actor-center">
+    <circle cx="880" cy="325" r="18" class="actor-head" />
+    <line x1="880" y1="343" x2="880" y2="405" class="actor-line" />
+    <line x1="850" y1="366" x2="910" y2="366" class="actor-line" />
+    <line x1="880" y1="405" x2="855" y2="460" class="actor-line" />
+    <line x1="880" y1="405" x2="905" y2="460" class="actor-line" />
+    <text x="880" y="485" class="actor-label">Maternity Center</text>
+  </g>
+
+  <!-- ACTOR 3 (RIGHT MIDDLE): Home Nurse -->
+  <!-- Position: Center x = 880, Hand anchor = (850, 685) -->
+  <g id="actor-nurse">
+    <circle cx="880" cy="645" r="18" class="actor-head" />
+    <line x1="880" y1="663" x2="880" y2="725" class="actor-line" />
+    <line x1="850" y1="685" x2="910" y2="685" class="actor-line" />
+    <line x1="880" y1="725" x2="855" y2="780" class="actor-line" />
+    <line x1="880" y1="725" x2="905" y2="780" class="actor-line" />
+    <text x="880" y="805" class="actor-label">Home Nurse</text>
+  </g>
+
+  <!-- ACTOR 4 (RIGHT BOTTOM): Admin -->
+  <!-- Position: Center x = 880, Hand anchor = (850, 946) -->
+  <g id="actor-admin">
+    <circle cx="880" cy="905" r="18" class="actor-head" />
+    <line x1="880" y1="923" x2="880" y2="985" class="actor-line" />
+    <line x1="850" y1="946" x2="910" y2="946" class="actor-line" />
+    <line x1="880" y1="985" x2="855" y2="1040" class="actor-line" />
+    <line x1="880" y1="985" x2="905" y2="1040" class="actor-line" />
+    <text x="880" y="1065" class="actor-label">Admin</text>
+  </g>
+
+
+  <!-- ================= ZERO-OVERLAP ASSOCIATION LINES ================= -->
+
+  <!-- 1. PATIENT CONNECTIONS (Left Hand Anchor: 160, 410 -> Left apex: 375, cy) -->
+  <!-- All lines fan out cleanly with strictly monotonically increasing angles: ZERO OVERLAPS -->
+  <line x1="160" y1="410" x2="375" y2="105" class="conn-line" /> <!-- Register / Login -->
+  <line x1="160" y1="410" x2="375" y2="163" class="conn-line" /> <!-- Manage Profile -->
+  <line x1="160" y1="410" x2="375" y2="221" class="conn-line" /> <!-- Search Centers -->
+  <line x1="160" y1="410" x2="375" y2="279" class="conn-line" /> <!-- View Center Services -->
+  <line x1="160" y1="410" x2="375" y2="337" class="conn-line" /> <!-- Book Hospital Appointment -->
+  <line x1="160" y1="410" x2="375" y2="511" class="conn-line" /> <!-- Search Home Nurses -->
+  <line x1="160" y1="410" x2="375" y2="569" class="conn-line" /> <!-- Book Home Nurse Care -->
+  <line x1="160" y1="410" x2="375" y2="627" class="conn-line" /> <!-- Pay Online / Track -->
+  <line x1="160" y1="410" x2="375" y2="685" class="conn-line" /> <!-- Submit Reviews & Ratings -->
+  <line x1="160" y1="410" x2="375" y2="1033" class="conn-line" /> <!-- System Logout -->
+
+  <!-- 2. MATERNITY CENTER CONNECTIONS (Right Hand Anchor: 850, 366 -> Right apex: 645, cy) -->
+  <!-- Target range: y in [279, 453] -->
+  <line x1="850" y1="366" x2="645" y2="279" class="conn-line" /> <!-- View Center Services & Pricing -->
+  <line x1="850" y1="366" x2="645" y2="337" class="conn-line" /> <!-- Book Hospital Appointment -->
+  <line x1="850" y1="366" x2="645" y2="395" class="conn-line" /> <!-- Manage Center Profile & Bio -->
+  <line x1="850" y1="366" x2="645" y2="453" class="conn-line" /> <!-- Manage Hospital Bookings -->
+
+  <!-- 3. HOME NURSE CONNECTIONS (Right Hand Anchor: 850, 685 -> Right apex: 645, cy) -->
+  <!-- Target range: y in [569, 801] -->
+  <line x1="850" y1="685" x2="645" y2="569" class="conn-line" /> <!-- Book Home Nurse Care -->
+  <line x1="850" y1="685" x2="645" y2="743" class="conn-line" /> <!-- Manage Nurse Shifts & Bio -->
+  <line x1="850" y1="685" x2="645" y2="801" class="conn-line" /> <!-- Manage Nurse Care Bookings -->
+
+  <!-- 4. ADMIN CONNECTIONS (Right Hand Anchor: 850, 946 -> Right apex: 645, cy) -->
+  <!-- Target range: y in [859, 1033] -->
+  <line x1="850" y1="946" x2="645" y2="859" class="conn-line" /> <!-- Verify & Approve Providers -->
+  <line x1="850" y1="946" x2="645" y2="917" class="conn-line" /> <!-- Monitor Global Bookings -->
+  <line x1="850" y1="946" x2="645" y2="975" class="conn-line" /> <!-- Filter / Export Reports -->
+  <line x1="850" y1="946" x2="645" y2="1033" class="conn-line" /> <!-- System Logout -->
+
+</svg>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maternity Hub - Clean Use Case Diagrams (Zero Overlap)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f1f5f9;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 16px 28px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    .header-left h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .header-left p {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 3px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .btn {
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary {
+      background: #2563eb;
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+    .btn-outline {
+      background: #ffffff;
+      border-color: #cbd5e1;
+      color: #334155;
+    }
+    .btn-outline:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+    .tab-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+    main {
+      flex: 1;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .diagram-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      padding: 24px;
+      max-width: 1080px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .diagram-container {
+      width: 100%;
+      overflow: auto;
+      display: flex;
+      justify-content: center;
+      background: #ffffff;
+      padding: 12px;
+    }
+    .diagram-container svg {
+      width: 100%;
+      max-width: 950px;
+      height: auto;
+      display: block;
+    }
+    .info-bar {
+      margin-top: 18px;
+      padding: 12px 18px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      font-size: 13.5px;
+      color: #166534;
+      width: 100%;
+      max-width: 950px;
+      line-height: 1.5;
+    }
+    @media print {
+      body {
+        background: #ffffff;
+      }
+      header, .info-bar {
+        display: none !important;
+      }
+      .diagram-card {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <h1>Maternity Hub - Use Case Diagram</h1>
+      <p>Zero-Overlap Association Lines &bull; Exact Reference Model Architecture</p>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-outline tab-btn active" id="btn-tab-4" onclick="switchDiagram(4)">
+        4 Modules / Actors (Full Project)
+      </button>
+      <button class="btn btn-outline tab-btn" id="btn-tab-3" onclick="switchDiagram(3)">
+        3 Actors (Exact Reference Model)
+      </button>
+      <button class="btn btn-primary" onclick="downloadPNG()">
+        Download High-Res PNG
+      </button>
+      <button class="btn btn-outline" onclick="window.print()">
+        Print / Save PDF
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="diagram-card">
+      <div id="container-4" class="diagram-container">
+        <!-- Inlined 4-Actor SVG -->
+        <div id="svg-wrap-4" style="width:100%; max-width:980px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 1160" width="100%" height="100%" style="background-color: #ffffff; font-family: Arial, Helvetica, sans-serif;">
+            <defs>
+              <style>
+                .sys-box { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+                .sys-title { font-size: 18px; font-weight: bold; text-anchor: middle; fill: #000000; letter-spacing: 1.5px; }
+                .oval { fill: #ffffff; stroke: #000000; stroke-width: 1.8; rx: 135; ry: 19; }
+                .oval-text { font-size: 13px; font-weight: 500; text-anchor: middle; fill: #000000; dominant-baseline: central; }
+                .actor-line { stroke: #000000; stroke-width: 2.2; stroke-linecap: round; }
+                .actor-head { fill: #ffffff; stroke: #000000; stroke-width: 2.2; }
+                .actor-label { font-size: 13.5px; font-weight: bold; text-anchor: middle; fill: #000000; }
+                .conn-line { stroke: #000000; stroke-width: 1.3; }
+              </style>
+            </defs>
+            <rect x="290" y="30" width="440" height="1100" class="sys-box" />
+            <text x="510" y="65" class="sys-title">MATERNITY HUB SYSTEM</text>
+
+            <ellipse cx="510" cy="105" rx="135" ry="19" class="oval" />
+            <text x="510" y="105" class="oval-text">Register / Patient Login</text>
+
+            <ellipse cx="510" cy="163" rx="135" ry="19" class="oval" />
+            <text x="510" y="163" class="oval-text">Manage User Profile</text>
+
+            <ellipse cx="510" cy="221" rx="135" ry="19" class="oval" />
+            <text x="510" y="221" class="oval-text">Search Maternity Centers</text>
+
+            <ellipse cx="510" cy="279" rx="135" ry="19" class="oval" />
+            <text x="510" y="279" class="oval-text">View Center Services &amp; Pricing</text>
+
+            <ellipse cx="510" cy="337" rx="135" ry="19" class="oval" />
+            <text x="510" y="337" class="oval-text">Book Hospital Appointment</text>
+
+            <ellipse cx="510" cy="395" rx="135" ry="19" class="oval" />
+            <text x="510" y="395" class="oval-text">Manage Center Profile &amp; Bio</text>
+
+            <ellipse cx="510" cy="453" rx="135" ry="19" class="oval" />
+            <text x="510" y="453" class="oval-text">Manage Hospital Bookings</text>
+
+            <ellipse cx="510" cy="511" rx="135" ry="19" class="oval" />
+            <text x="510" y="511" class="oval-text">Search Home Nurses</text>
+
+            <ellipse cx="510" cy="569" rx="135" ry="19" class="oval" />
+            <text x="510" y="569" class="oval-text">Book Home Nurse Care</text>
+
+            <ellipse cx="510" cy="627" rx="135" ry="19" class="oval" />
+            <text x="510" y="627" class="oval-text">Pay Online / Track Booking</text>
+
+            <ellipse cx="510" cy="685" rx="135" ry="19" class="oval" />
+            <text x="510" y="685" class="oval-text">Submit Reviews &amp; Ratings</text>
+
+            <ellipse cx="510" cy="743" rx="135" ry="19" class="oval" />
+            <text x="510" y="743" class="oval-text">Manage Nurse Shifts &amp; Bio</text>
+
+            <ellipse cx="510" cy="801" rx="135" ry="19" class="oval" />
+            <text x="510" y="801" class="oval-text">Manage Nurse Care Bookings</text>
+
+            <ellipse cx="510" cy="859" rx="135" ry="19" class="oval" />
+            <text x="510" y="859" class="oval-text">Verify &amp; Approve Providers</text>
+
+            <ellipse cx="510" cy="917" rx="135" ry="19" class="oval" />
+            <text x="510" y="917" class="oval-text">Monitor Global Bookings &amp; Users</text>
+
+            <ellipse cx="510" cy="975" rx="135" ry="19" class="oval" />
+            <text x="510" y="975" class="oval-text">Filter / Export Reports</text>
+
+            <ellipse cx="510" cy="1033" rx="135" ry="19" class="oval" />
+            <text x="510" y="1033" class="oval-text">System Logout</text>
+
+            <!-- ACTORS -->
+            <g id="actor-patient-in">
+              <circle cx="125" cy="365" r="20" class="actor-head" />
+              <line x1="125" y1="385" x2="125" y2="455" class="actor-line" />
+              <line x1="90" y1="410" x2="160" y2="410" class="actor-line" />
+              <line x1="125" y1="455" x2="95" y2="520" class="actor-line" />
+              <line x1="125" y1="455" x2="155" y2="520" class="actor-line" />
+              <text x="125" y="550" class="actor-label">Patient /</text>
+              <text x="125" y="570" class="actor-label">Expectant Mother</text>
+            </g>
+
+            <g id="actor-center-in">
+              <circle cx="880" cy="325" r="18" class="actor-head" />
+              <line x1="880" y1="343" x2="880" y2="405" class="actor-line" />
+              <line x1="850" y1="366" x2="910" y2="366" class="actor-line" />
+              <line x1="880" y1="405" x2="855" y2="460" class="actor-line" />
+              <line x1="880" y1="405" x2="905" y2="460" class="actor-line" />
+              <text x="880" y="485" class="actor-label">Maternity Center</text>
+            </g>
+
+            <g id="actor-nurse-in">
+              <circle cx="880" cy="645" r="18" class="actor-head" />
+              <line x1="880" y1="663" x2="880" y2="725" class="actor-line" />
+              <line x1="850" y1="685" x2="910" y2="685" class="actor-line" />
+              <line x1="880" y1="725" x2="855" y2="780" class="actor-line" />
+              <line x1="880" y1="725" x2="905" y2="780" class="actor-line" />
+              <text x="880" y="805" class="actor-label">Home Nurse</text>
+            </g>
+
+            <g id="actor-admin-in">
+              <circle cx="880" cy="905" r="18" class="actor-head" />
+              <line x1="880" y1="923" x2="880" y2="985" class="actor-line" />
+              <line x1="850" y1="946" x2="910" y2="946" class="actor-line" />
+              <line x1="880" y1="985" x2="855" y2="1040" class="actor-line" />
+              <line x1="880" y1="985" x2="905" y2="1040" class="actor-line" />
+              <text x="880" y="1065" class="actor-label">Admin</text>
+            </g>
+
+            <!-- CONNECTIONS -->
+            <line x1="160" y1="410" x2="375" y2="105" class="conn-line" />
+            <line x1="160" y1="410" x2="375" y2="163" class="conn-line" />
+            <line x1="160" y1="410" x2="375" y2="221" class="conn-line" />
+            <line x1="160" y1="410" x2="375" y2="279" class="conn-line" />
+            <line x1="160" y1="410" x2="375" y2="337" class="conn-line" />
+            <line x1="160" y1="410" x2="375" y2="511" class="conn-line" />
+            <line x1="160" y1="410" x2="375" y2="569" class="conn-line" />
+            <line x1="160" y1="410" x2="375" y2="627" class="conn-line" />
+            <line x1="160" y1="410" x2="375" y2="685" class="conn-line" />
+            <line x1="160" y1="410" x2="375" y2="1033" class="conn-line" />
+
+            <line x1="850" y1="366" x2="645" y2="279" class="conn-line" />
+            <line x1="850" y1="366" x2="645" y2="337" class="conn-line" />
+            <line x1="850" y1="366" x2="645" y2="395" class="conn-line" />
+            <line x1="850" y1="366" x2="645" y2="453" class="conn-line" />
+
+            <line x1="850" y1="685" x2="645" y2="569" class="conn-line" />
+            <line x1="850" y1="685" x2="645" y2="743" class="conn-line" />
+            <line x1="850" y1="685" x2="645" y2="801" class="conn-line" />
+
+            <line x1="850" y1="946" x2="645" y2="859" class="conn-line" />
+            <line x1="850" y1="946" x2="645" y2="917" class="conn-line" />
+            <line x1="850" y1="946" x2="645" y2="975" class="conn-line" />
+            <line x1="850" y1="946" x2="645" y2="1033" class="conn-line" />
+          </svg>
+        </div>
+      </div>
+
+      <div id="container-3" class="diagram-container" style="display: none;">
+        <!-- Inlined 3-Actor SVG -->
+        <div id="svg-wrap-3" style="width:100%; max-width:980px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 1140" width="100%" height="100%" style="background-color: #ffffff; font-family: Arial, Helvetica, sans-serif;">
+            <defs>
+              <style>
+                .sys-box { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+                .sys-title { font-size: 18px; font-weight: bold; text-anchor: middle; fill: #000000; letter-spacing: 1.5px; }
+                .oval { fill: #ffffff; stroke: #000000; stroke-width: 1.8; rx: 135; ry: 19; }
+                .oval-text { font-size: 13px; font-weight: 500; text-anchor: middle; fill: #000000; dominant-baseline: central; }
+                .actor-line { stroke: #000000; stroke-width: 2.2; stroke-linecap: round; }
+                .actor-head { fill: #ffffff; stroke: #000000; stroke-width: 2.2; }
+                .actor-label { font-size: 13.5px; font-weight: bold; text-anchor: middle; fill: #000000; }
+                .conn-line { stroke: #000000; stroke-width: 1.3; }
+              </style>
+            </defs>
+            <rect x="290" y="30" width="440" height="1080" class="sys-box" />
+            <text x="510" y="65" class="sys-title">MATERNITY HUB SYSTEM</text>
+
+            <ellipse cx="510" cy="105" rx="135" ry="19" class="oval" />
+            <text x="510" y="105" class="oval-text">Register / Login</text>
+
+            <ellipse cx="510" cy="167" rx="135" ry="19" class="oval" />
+            <text x="510" y="167" class="oval-text">Manage Profile</text>
+
+            <ellipse cx="510" cy="229" rx="135" ry="19" class="oval" />
+            <text x="510" y="229" class="oval-text">Search Maternity Centers</text>
+
+            <ellipse cx="510" cy="291" rx="135" ry="19" class="oval" />
+            <text x="510" y="291" class="oval-text">View Services &amp; Packages</text>
+
+            <ellipse cx="510" cy="353" rx="135" ry="19" class="oval" />
+            <text x="510" y="353" class="oval-text">Book Hospital Appointment</text>
+
+            <ellipse cx="510" cy="415" rx="135" ry="19" class="oval" />
+            <text x="510" y="415" class="oval-text">Search &amp; Book Home Nurse</text>
+
+            <ellipse cx="510" cy="477" rx="135" ry="19" class="oval" />
+            <text x="510" y="477" class="oval-text">Pay Online / Track Booking</text>
+
+            <ellipse cx="510" cy="539" rx="135" ry="19" class="oval" />
+            <text x="510" y="539" class="oval-text">Submit Reviews &amp; Ratings</text>
+
+            <ellipse cx="510" cy="601" rx="135" ry="19" class="oval" />
+            <text x="510" y="601" class="oval-text">Manage Center / Nurse Profile</text>
+
+            <ellipse cx="510" cy="663" rx="135" ry="19" class="oval" />
+            <text x="510" y="663" class="oval-text">Manage Services &amp; Shift Rates</text>
+
+            <ellipse cx="510" cy="725" rx="135" ry="19" class="oval" />
+            <text x="510" y="725" class="oval-text">Manage Booking Requests</text>
+
+            <ellipse cx="510" cy="787" rx="135" ry="19" class="oval" />
+            <text x="510" y="787" class="oval-text">Verify &amp; Approve Providers</text>
+
+            <ellipse cx="510" cy="849" rx="135" ry="19" class="oval" />
+            <text x="510" y="849" class="oval-text">Monitor Global Bookings &amp; Users</text>
+
+            <ellipse cx="510" cy="911" rx="135" ry="19" class="oval" />
+            <text x="510" y="911" class="oval-text">Filter / Export Reports</text>
+
+            <ellipse cx="510" cy="973" rx="135" ry="19" class="oval" />
+            <text x="510" y="973" class="oval-text">System Logout</text>
+
+            <g id="actor-p3">
+              <circle cx="125" cy="375" r="22" class="actor-head" />
+              <line x1="125" y1="397" x2="125" y2="470" class="actor-line" />
+              <line x1="88" y1="420" x2="162" y2="420" class="actor-line" />
+              <line x1="125" y1="470" x2="92" y2="540" class="actor-line" />
+              <line x1="125" y1="470" x2="158" y2="540" class="actor-line" />
+              <text x="125" y="570" class="actor-label">Patient /</text>
+              <text x="125" y="590" class="actor-label">Expectant Mother</text>
+            </g>
+
+            <g id="actor-pr3">
+              <circle cx="880" cy="515" r="20" class="actor-head" />
+              <line x1="880" y1="535" x2="880" y2="605" class="actor-line" />
+              <line x1="846" y1="560" x2="914" y2="560" class="actor-line" />
+              <line x1="880" y1="605" x2="852" y2="670" class="actor-line" />
+              <line x1="880" y1="605" x2="908" y2="670" class="actor-line" />
+              <text x="880" y="700" class="actor-label">Maternity Provider /</text>
+              <text x="880" y="720" class="actor-label">Care Provider</text>
+            </g>
+
+            <g id="actor-ad3">
+              <circle cx="880" cy="870" r="20" class="actor-head" />
+              <line x1="880" y1="890" x2="880" y2="960" class="actor-line" />
+              <line x1="846" y1="915" x2="914" y2="915" class="actor-line" />
+              <line x1="880" y1="960" x2="852" y2="1025" class="actor-line" />
+              <line x1="880" y1="960" x2="908" y2="1025" class="actor-line" />
+              <text x="880" y="1055" class="actor-label">Administrator</text>
+            </g>
+
+            <line x1="162" y1="420" x2="375" y2="105" class="conn-line" />
+            <line x1="162" y1="420" x2="375" y2="167" class="conn-line" />
+            <line x1="162" y1="420" x2="375" y2="229" class="conn-line" />
+            <line x1="162" y1="420" x2="375" y2="291" class="conn-line" />
+            <line x1="162" y1="420" x2="375" y2="353" class="conn-line" />
+            <line x1="162" y1="420" x2="375" y2="415" class="conn-line" />
+            <line x1="162" y1="420" x2="375" y2="477" class="conn-line" />
+            <line x1="162" y1="420" x2="375" y2="539" class="conn-line" />
+            <line x1="162" y1="420" x2="375" y2="973" class="conn-line" />
+
+            <line x1="846" y1="560" x2="645" y2="291" class="conn-line" />
+            <line x1="846" y1="560" x2="645" y2="353" class="conn-line" />
+            <line x1="846" y1="560" x2="645" y2="415" class="conn-line" />
+            <line x1="846" y1="560" x2="645" y2="601" class="conn-line" />
+            <line x1="846" y1="560" x2="645" y2="663" class="conn-line" />
+            <line x1="846" y1="560" x2="645" y2="725" class="conn-line" />
+
+            <line x1="846" y1="915" x2="645" y2="787" class="conn-line" />
+            <line x1="846" y1="915" x2="645" y2="849" class="conn-line" />
+            <line x1="846" y1="915" x2="645" y2="911" class="conn-line" />
+            <line x1="846" y1="915" x2="645" y2="973" class="conn-line" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="info-bar">
+        <strong>Zero-Overlap Quality Guarantee:</strong> All association lines connect precisely to the outer curve of the ovals without intersecting each other, slicing through ovals, or crossing actor figures. Perfect for project reports, viva presentations, and documentation.
+      </div>
+    </div>
+  </main>
+
+  <canvas id="exportCanvas" style="display:none;"></canvas>
+
+  <script>
+    let currentMode = 4;
+
+    function switchDiagram(mode) {
+      currentMode = mode;
+      document.getElementById('container-4').style.display = mode === 4 ? 'flex' : 'none';
+      document.getElementById('container-3').style.display = mode === 3 ? 'flex' : 'none';
+      document.getElementById('btn-tab-4').classList.toggle('active', mode === 4);
+      document.getElementById('btn-tab-3').classList.toggle('active', mode === 3);
+    }
+
+    async function downloadPNG() {
+      const wrapId = currentMode === 4 ? 'svg-wrap-4' : 'svg-wrap-3';
+      const svgEl = document.querySelector(`#${wrapId} svg`);
+      const serializer = new XMLSerializer();
+      const svgText = serializer.serializeToString(svgEl);
+
+      const width = 2040; // 2x high resolution
+      const height = currentMode === 4 ? 2320 : 2280;
+
+      const canvas = document.getElementById('exportCanvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, height);
+
+      const svgBlob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+      const URL = window.URL || window.webkitURL || window;
+      const blobURL = URL.createObjectURL(svgBlob);
+
+      const img = new Image();
+      img.onload = function() {
+        ctx.drawImage(img, 0, 0, width, height);
+        URL.revokeObjectURL(blobURL);
+        const pngUrl = canvas.toDataURL("image/png");
+        const downloadLink = document.createElement("a");
+        downloadLink.href = pngUrl;
+        downloadLink.download = currentMode === 4 ? "maternity_hub_usecase_diagram_4actors.png" : "maternity_hub_usecase_diagram_3actors.png";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      };
+      img.src = blobURL;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1380" width="100%" height="100%" style="background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <style>
+      .main-box { fill: #ffffff; stroke: #0f172a; stroke-width: 2.5; }
+      .module-box { fill: #f8fafc; stroke: #64748b; stroke-width: 1.5; stroke-dasharray: 4 3; }
+      .module-header { font-size: 13px; font-weight: 800; fill: #1e3a8a; letter-spacing: 0.8px; text-transform: uppercase; }
+      .main-title { font-size: 20px; font-weight: 800; text-anchor: middle; fill: #0f172a; letter-spacing: 1.5px; }
+      .usecase { fill: #ffffff; stroke: #334155; stroke-width: 1.8; rx: 145; ry: 20; }
+      .usecase-text { font-size: 13px; font-weight: 600; text-anchor: middle; fill: #1e293b; dominant-baseline: central; }
+      .actor-line { stroke: #0f172a; stroke-width: 2.2; stroke-linecap: round; }
+      .actor-label { font-size: 14px; font-weight: 700; text-anchor: middle; fill: #0f172a; }
+      .conn-line { stroke: #475569; stroke-width: 1.25; }
+    </style>
+  </defs>
+
+  <!-- MAIN SYSTEM BOUNDARY BOX -->
+  <rect x="240" y="35" width="560" height="1310" class="main-box" rx="8" />
+  <text x="520" y="70" class="main-title">MATERNITY HUB SYSTEM</text>
+
+  <!-- ================= MODULE 1 ================= -->
+  <rect x="255" y="90" width="530" height="235" class="module-box" rx="6" />
+  <text x="270" y="112" class="module-header">Module 1: Authentication &amp; User Management</text>
+
+  <!-- UC1 -->
+  <ellipse cx="520" cy="150" rx="145" ry="20" class="usecase" />
+  <text x="520" y="150" class="usecase-text">Register / Login (RBAC)</text>
+
+  <!-- UC2 -->
+  <ellipse cx="520" cy="205" rx="145" ry="20" class="usecase" />
+  <text x="520" y="205" class="usecase-text">Manage User Profile</text>
+
+  <!-- UC3 -->
+  <ellipse cx="520" cy="260" rx="145" ry="20" class="usecase" />
+  <text x="520" y="260" class="usecase-text">Logout</text>
+
+  <!-- ================= MODULE 2 ================= -->
+  <rect x="255" y="340" width="530" height="235" class="module-box" rx="6" />
+  <text x="270" y="362" class="module-header">Module 2: Maternity Center Management</text>
+
+  <!-- UC4 -->
+  <ellipse cx="520" cy="400" rx="145" ry="20" class="usecase" />
+  <text x="520" y="400" class="usecase-text">Search &amp; Filter Centers</text>
+
+  <!-- UC5 -->
+  <ellipse cx="520" cy="455" rx="145" ry="20" class="usecase" />
+  <text x="520" y="455" class="usecase-text">View Center Profile &amp; Services</text>
+
+  <!-- UC6 -->
+  <ellipse cx="520" cy="510" rx="145" ry="20" class="usecase" />
+  <text x="520" y="510" class="usecase-text">Manage Center Services &amp; Pricing</text>
+
+  <!-- ================= MODULE 3 ================= -->
+  <rect x="255" y="590" width="530" height="235" class="module-box" rx="6" />
+  <text x="270" y="612" class="module-header">Module 3: Home Nurse Care Management</text>
+
+  <!-- UC7 -->
+  <ellipse cx="520" cy="650" rx="145" ry="20" class="usecase" />
+  <text x="520" y="650" class="usecase-text">Search &amp; View Home Nurses</text>
+
+  <!-- UC8 -->
+  <ellipse cx="520" cy="705" rx="145" ry="20" class="usecase" />
+  <text x="520" y="705" class="usecase-text">View Shift Types &amp; Pricing</text>
+
+  <!-- UC9 -->
+  <ellipse cx="520" cy="760" rx="145" ry="20" class="usecase" />
+  <text x="520" y="760" class="usecase-text">Manage Nurse Profiles &amp; Shifts</text>
+
+  <!-- ================= MODULE 4 ================= -->
+  <rect x="255" y="840" width="530" height="480" class="module-box" rx="6" />
+  <text x="270" y="862" class="module-header">Module 4: Booking, Payment &amp; Administration</text>
+
+  <!-- UC10 -->
+  <ellipse cx="520" cy="900" rx="145" ry="20" class="usecase" />
+  <text x="520" y="900" class="usecase-text">Book Appointment / Nurse Care</text>
+
+  <!-- UC11 -->
+  <ellipse cx="520" cy="955" rx="145" ry="20" class="usecase" />
+  <text x="520" y="955" class="usecase-text">Pay Online (Checkout)</text>
+
+  <!-- UC12 -->
+  <ellipse cx="520" cy="1010" rx="145" ry="20" class="usecase" />
+  <text x="520" y="1010" class="usecase-text">Track / Cancel Bookings</text>
+
+  <!-- UC13 -->
+  <ellipse cx="520" cy="1065" rx="145" ry="20" class="usecase" />
+  <text x="520" y="1065" class="usecase-text">Accept / Reject Booking Requests</text>
+
+  <!-- UC14 -->
+  <ellipse cx="520" cy="1120" rx="145" ry="20" class="usecase" />
+  <text x="520" y="1120" class="usecase-text">Submit Reviews &amp; Ratings</text>
+
+  <!-- UC15 -->
+  <ellipse cx="520" cy="1175" rx="145" ry="20" class="usecase" />
+  <text x="520" y="1175" class="usecase-text">Verify &amp; Approve Centers / Nurses</text>
+
+  <!-- UC16 -->
+  <ellipse cx="520" cy="1230" rx="145" ry="20" class="usecase" />
+  <text x="520" y="1230" class="usecase-text">Monitor Global Bookings &amp; Analytics</text>
+
+  <!-- ================= ACTORS ================= -->
+
+  <!-- ACTOR 1: Patient / Expectant Mother (LEFT) -->
+  <g id="actor-patient">
+    <circle cx="110" cy="560" r="18" fill="#ffffff" stroke="#0f172a" stroke-width="2.2" />
+    <line x1="110" y1="578" x2="110" y2="630" class="actor-line" />
+    <line x1="78" y1="595" x2="142" y2="595" class="actor-line" />
+    <line x1="110" y1="630" x2="82" y2="675" class="actor-line" />
+    <line x1="110" y1="630" x2="138" y2="675" class="actor-line" />
+    <text x="110" y="700" class="actor-label">Patient /</text>
+    <text x="110" y="720" class="actor-label">Expectant Mother</text>
+  </g>
+
+  <!-- ACTOR 2: Maternity Center / Provider (RIGHT TOP) -->
+  <g id="actor-center">
+    <circle cx="950" cy="380" r="18" fill="#ffffff" stroke="#0f172a" stroke-width="2.2" />
+    <line x1="950" y1="398" x2="950" y2="450" class="actor-line" />
+    <line x1="918" y1="415" x2="982" y2="415" class="actor-line" />
+    <line x1="950" y1="450" x2="922" y2="495" class="actor-line" />
+    <line x1="950" y1="450" x2="978" y2="495" class="actor-line" />
+    <text x="950" y="520" class="actor-label">Maternity Center</text>
+    <text x="950" y="540" class="actor-label">Provider</text>
+  </g>
+
+  <!-- ACTOR 3: Home Nurse Staff (RIGHT MIDDLE) -->
+  <g id="actor-nurse">
+    <circle cx="950" cy="740" r="18" fill="#ffffff" stroke="#0f172a" stroke-width="2.2" />
+    <line x1="950" y1="758" x2="950" y2="810" class="actor-line" />
+    <line x1="918" y1="775" x2="982" y2="775" class="actor-line" />
+    <line x1="950" y1="810" x2="922" y2="855" class="actor-line" />
+    <line x1="950" y1="810" x2="978" y2="855" class="actor-line" />
+    <text x="950" y="880" class="actor-label">Home Nurse /</text>
+    <text x="950" y="900" class="actor-label">Care Staff</text>
+  </g>
+
+  <!-- ACTOR 4: Administrator (RIGHT BOTTOM) -->
+  <g id="actor-admin">
+    <circle cx="950" cy="1100" r="18" fill="#ffffff" stroke="#0f172a" stroke-width="2.2" />
+    <line x1="950" y1="1118" x2="950" y2="1170" class="actor-line" />
+    <line x1="918" y1="1135" x2="982" y2="1135" class="actor-line" />
+    <line x1="950" y1="1170" x2="922" y2="1215" class="actor-line" />
+    <line x1="950" y1="1170" x2="978" y2="1215" class="actor-line" />
+    <text x="950" y="1240" class="actor-label">Administrator</text>
+  </g>
+
+  <!-- ================= CONNECTIONS ================= -->
+
+  <!-- Patient Links (From ~145, 595) -->
+  <line x1="145" y1="595" x2="375" y2="150" class="conn-line" /> <!-- Register/Login -->
+  <line x1="145" y1="595" x2="375" y2="205" class="conn-line" /> <!-- Manage Profile -->
+  <line x1="145" y1="595" x2="375" y2="260" class="conn-line" /> <!-- Logout -->
+  <line x1="145" y1="595" x2="375" y2="400" class="conn-line" /> <!-- Search Centers -->
+  <line x1="145" y1="595" x2="375" y2="455" class="conn-line" /> <!-- View Center Details -->
+  <line x1="145" y1="595" x2="375" y2="650" class="conn-line" /> <!-- Search Nurses -->
+  <line x1="145" y1="595" x2="375" y2="705" class="conn-line" /> <!-- View Shifts -->
+  <line x1="145" y1="595" x2="375" y2="900" class="conn-line" /> <!-- Book Appointment -->
+  <line x1="145" y1="595" x2="375" y2="955" class="conn-line" /> <!-- Pay Online -->
+  <line x1="145" y1="595" x2="375" y2="1010" class="conn-line" /> <!-- Track/Cancel -->
+  <line x1="145" y1="595" x2="375" y2="1120" class="conn-line" /> <!-- Add Reviews -->
+
+  <!-- Maternity Center Provider Links (From ~915, 415) -->
+  <line x1="915" y1="415" x2="665" y2="150" class="conn-line" /> <!-- Register/Login -->
+  <line x1="915" y1="415" x2="665" y2="205" class="conn-line" /> <!-- Manage Profile -->
+  <line x1="915" y1="415" x2="665" y2="260" class="conn-line" /> <!-- Logout -->
+  <line x1="915" y1="415" x2="665" y2="510" class="conn-line" /> <!-- Manage Services/Pricing -->
+  <line x1="915" y1="415" x2="665" y2="1010" class="conn-line" /> <!-- Track Bookings -->
+  <line x1="915" y1="415" x2="665" y2="1065" class="conn-line" /> <!-- Accept/Reject -->
+
+  <!-- Home Nurse Links (From ~915, 775) -->
+  <line x1="915" y1="775" x2="665" y2="150" class="conn-line" /> <!-- Register/Login -->
+  <line x1="915" y1="775" x2="665" y2="205" class="conn-line" /> <!-- Manage Profile -->
+  <line x1="915" y1="775" x2="665" y2="260" class="conn-line" /> <!-- Logout -->
+  <line x1="915" y1="775" x2="665" y2="760" class="conn-line" /> <!-- Manage Nurse Profile/Shifts -->
+  <line x1="915" y1="775" x2="665" y2="1010" class="conn-line" /> <!-- Track Nurse Bookings -->
+  <line x1="915" y1="775" x2="665" y2="1065" class="conn-line" /> <!-- Accept/Reject Nurse Care -->
+
+  <!-- Admin Links (From ~915, 1135) -->
+  <line x1="915" y1="1135" x2="665" y2="150" class="conn-line" /> <!-- Login -->
+  <line x1="915" y1="1135" x2="665" y2="260" class="conn-line" /> <!-- Logout -->
+  <line x1="915" y1="1135" x2="665" y2="1010" class="conn-line" /> <!-- Manage All Bookings -->
+  <line x1="915" y1="1135" x2="665" y2="1175" class="conn-line" /> <!-- Verify & Approve Centers/Nurses -->
+  <line x1="915" y1="1135" x2="665" y2="1230" class="conn-line" /> <!-- Global Monitor & Analytics -->
+
+</svg>
